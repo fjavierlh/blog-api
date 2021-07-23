@@ -3,12 +3,9 @@ import Container from 'typedi';
 import { CreateOffensiveWordUseCase } from '../../application/use-cases/create-offensive-word.use-case';
 import { DeleteOffensiveUseCase } from '../../application/use-cases/delete-offensive-word.use-case';
 import { FindAllOffensiveWordsUseCase } from '../../application/use-cases/find-all-offensive-word.use-case';
-//import { DeleteOffensiveUseCase } from '../../application/use-cases/delete-offensive-word.use-case';
-//import { FindAllOffensiveWordsUseCase } from '../../application/use-cases/find-all-offensive-word.use-case';
 import { OffensiveWordRequest } from '../../application/use-cases/offensive-word.request';
-//import { ShowOffensiveWordById } from '../../application/use-cases/show-offensive-word-by-id.use-case';
-//import { OffensiveWordService } from '../../domain/services/offensive-word.service';
-//import { OffensiveWordRepositoryMongo } from '../repositories/offensive-word.repository.mongo';
+import { ShowOffensiveWordById } from '../../application/use-cases/show-offensive-word-by-id.use-case';
+
 
 const router = express.Router();
 
@@ -38,6 +35,7 @@ router.post('/api/offensive-word', (req, res) => {
 
 router.delete('/api/offensive-word/:id', (req, res) => {
 	let deletedSuccess = false;
+	console.log(req.params);
 
 	try {
 		const { id } = req.params;
@@ -76,26 +74,26 @@ router.get('/api/offensive-word', async (req, res) => {
 	}
 });
 
-/*
 router.get('/api/offensive-word/:id', async (req, res) => {
-	const getOneSuccess = false;
+	let getOneSuccess = false;
 	let result = null;
-
+	
 	try {
 		const { id } = req.params;
-		const useCase = new ShowOffensiveWordById(new OffensiveWordService(new OffensiveWordRepositoryMongo));
+		const useCase = Container.get(ShowOffensiveWordById);
 		result = await useCase.execute(id);
+		getOneSuccess = true;
 
 	} catch (error) {
-		console.log('(!) Exception: ', error.message);
+		console.log('(!) Exception: ', error);
 
 	} finally {
 		getOneSuccess ? res.json(result) : res.sendStatus(404);
-		
+
 	}
-	
 });
 
+/*
 router.put('/api/offensive-word/:id', async (req, res) => {
 	const { id } = req.params;
 	const { word, level } = req.body;
