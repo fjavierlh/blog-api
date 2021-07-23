@@ -1,7 +1,11 @@
 export class LevelVO {
 
-	static LOWER_LEVEL = 1;
-	static HIGER_LEVEL = 5;
+	static get LOWER_LEVEL(): number {
+		return 1;
+	}
+	static get HIGER_LEVEL(): number {
+		return 5;
+	}
 
 	private constructor(private level: number) { }
 
@@ -10,10 +14,10 @@ export class LevelVO {
 	}
 
 	static create(level: number): LevelVO {
-		
+
 		if (level < this.LOWER_LEVEL || level > this.HIGER_LEVEL) {
 			throw new Error(
-				`El valor debe ser estar en el rango 1-5, ${level} es ${level > this.HIGER_LEVEL ? 'mayor' : 'menor'}`
+				`El valor debe ser estar en el rango [${this.LOWER_LEVEL}-${this.HIGER_LEVEL}], ${level} es ${level > this.HIGER_LEVEL ? 'mayor' : 'menor'}`
 			);
 		}
 
