@@ -7,7 +7,7 @@ describe('AuthorVO', () => {
 		expect(author.value.length).toBe(9);
 	});
 
-	it('should throws an error if author length is lower than 5', () => {
+	it(`should throws an error if author length is lower than ${AuthorVO.MIN_LENGTH}`, () => {
 		const invalidAuthor = 'Loki';
 		expect(() => AuthorVO.create(invalidAuthor))
 			.toThrow(
@@ -15,7 +15,7 @@ describe('AuthorVO', () => {
 			);
 	});
 
-	it('should throws an error if author length is higer than 30', () => {
+	it(`should throws an error if author length is higer than ${AuthorVO.MAX_LENGTH}`, () => {
 		const invalidAuthor = 'abcde'.repeat(7);
 		expect(() => AuthorVO.create(invalidAuthor))
 			.toThrow(

@@ -11,12 +11,12 @@ describe('LevelVO', () => {
 	it('should throws an error if level is greatest than 5', () => {
 		const invalidLevel = 6;
 		expect(() => LevelVO.create(invalidLevel))
-			.toThrow(`El valor debe ser estar en el rango 1-5, ${invalidLevel} es mayor`);
+			.toThrow(`El valor debe ser estar en el rango [${LevelVO.LOWER_LEVEL}-${LevelVO.HIGER_LEVEL}], ${invalidLevel} es mayor`);
 	});
 
 	it('should throws an error if level is lowest than 1', () => {
 		const invalidLevel = 0;
 		expect(() => LevelVO.create(invalidLevel))
-			.toThrow(`El valor debe ser estar en el rango 1-5, ${invalidLevel} es menor`);
+			.toThrow(`El valor debe ser estar en el rango [${LevelVO.LOWER_LEVEL}-${LevelVO.HIGER_LEVEL}], ${invalidLevel} es menor`);
 	});
 });
