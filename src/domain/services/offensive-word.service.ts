@@ -28,7 +28,7 @@ export class OffensiveWordService {
 		const allOffensiveWordsData = await this.offensiveWordRepository.showAll();
 
 		const allOffensiveWordsModel = allOffensiveWordsData.map((ow: AnyObject)=> {
-			const offensiveWordToModel = {
+			const offensiveWordToModel: OffensiveWordType = {
 				id: IdVO.createWithUUID(ow.id),
 				word: WordVO.create(ow.word),
 				level: LevelVO.create(ow.level)
@@ -37,6 +37,22 @@ export class OffensiveWordService {
 		});
 
 		return allOffensiveWordsModel;
+	}
+
+	async showById(idOffensiveWord: IdVO): Promise<OffensiveWord> {
+		
+		const searchedOffensiveWord: AnyObject = await this.offensiveWordRepository.showById(idOffensiveWord);
+		
+		const offensiveWordModel: OffensiveWordType = {
+
+			id: IdVO.createWithUUID(searchedOffensiveWord.id),
+			word: WordVO.create(searchedOffensiveWord.word),
+			level: LevelVO.create(searchedOffensiveWord.level)
+
+		};
+
+		return new OffensiveWord(offensiveWordModel);
+		
 	}
 
 	/*
@@ -58,37 +74,6 @@ export class OffensiveWordService {
 		};
 
 		return offensiveWordCastedToType;
-	}
-	
-	
-	async showById(idOffensiveWord: IdVO): Promise<OffensiveWordType> {
-		const searchedOffensiveWord = await this.offensiveWordRepository.showById(idOffensiveWord.value);
-				
-		const offensiveWordCastedToType = {
-
-			id: IdVO.createWithUUID(searchedOffensiveWord.id),
-			word: WordVO.create(searchedOffensiveWord.word),
-			level: LevelVO.create(searchedOffensiveWord.level)
-
-		};
-
-		return offensiveWordCastedToType;
-	}
-		
-	async showAll(): Promise<OffensiveWordType[]> {
-		const allOffensiveWordsData = await this.offensiveWordRepository.showAll();
-		const allOffensiveWordsCastedToType = allOffensiveWordsData.map((offensiveWord): OffensiveWordType => {
-			
-			const offensiveWordToType = {
-				id: IdVO.createWithUUID(offensiveWord.id),
-				word: WordVO.create(offensiveWord.word),
-				level: LevelVO.create(offensiveWord.level)
-			};
-
-			return offensiveWordToType;
-		});
-
-		return allOffensiveWordsCastedToType;
 	}
 	*/
 

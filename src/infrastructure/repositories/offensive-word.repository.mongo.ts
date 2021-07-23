@@ -29,28 +29,18 @@ export class OffensiveWordRepositoryMongo implements OffensiveWordRepository {
 		return allOffensiveWords;
 	}
 
+
+	async showById(idOffensiveWord: IdVO): Promise<OffensiveWord> {
+		const offensiveWord: OffensiveWord[] = await OffensiveWordModel.find({ id: idOffensiveWord.value });
+		return offensiveWord[0];
+	}
+
 	/*
 	async update(idOffensiveWord: string, offensiveWord: OffensiveWordRequest): Promise<OffensiveWordResponse> {
 		return await OffensiveWordModel.findOneAndUpdate({ id: idOffensiveWord }, { ...offensiveWord, id: idOffensiveWord });
 	}
 
-	async showById(idOffensiveWord: IdRequest): Promise<OffensiveWordResponse> {
-
-		const searchedOffensiveWord = await OffensiveWordModel.find({ id: idOffensiveWord })[0];
-			
-		if(!searchedOffensiveWord) throw Error('Offensive word not found');
 	
-		const searchedOffensiveWordToResponse = {
-	
-			id: searchedOffensiveWord.id,
-			word: searchedOffensiveWord.word,
-			level: searchedOffensiveWord.level
-	
-		};
-	
-		return searchedOffensiveWordToResponse;
-
-	}
 
 */
 	
