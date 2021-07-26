@@ -12,7 +12,7 @@ export class FindAllOffensiveWordsUseCase {
 		
 		const allOffensiveWords: OffensiveWord[] = await this.offensiveWordService.showAll();
 
-		const allOffensiveWordsResponse = allOffensiveWords.map((ow): OffensiveWordResponse => {
+		const allOffensiveWordsResponse = allOffensiveWords.map((ow: OffensiveWord) => {
 			
 			const offensiveWordResponse = {
 				id: ow.id.value,
