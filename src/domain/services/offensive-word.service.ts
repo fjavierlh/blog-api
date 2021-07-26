@@ -54,10 +54,10 @@ export class OffensiveWordService {
 	}
 
 	async updateById(idOffensiveWord: IdVO, offensiveWord: OffensiveWordType): Promise<OffensiveWord> {
+		
 		const receivedOffensiveWord = new OffensiveWord(offensiveWord);
-		console.log('receivedOffensiveWord', receivedOffensiveWord);
+		
 		const updatedOffensiveWord: AnyObject = await this.offensiveWordRepository.update(idOffensiveWord, receivedOffensiveWord);
-		console.log('updatedOffensiveWord', updatedOffensiveWord);
 				
 		const updatedOffensiveWordData: OffensiveWordType = {
 
