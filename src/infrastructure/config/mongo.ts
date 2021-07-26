@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const connectToDB = async () => {
+const connectToDB = async (): Promise<void> => {
 	try {
 		await mongoose.connect('mongodb://localhost:27018/blog', {
 			authSource: 'admin',
