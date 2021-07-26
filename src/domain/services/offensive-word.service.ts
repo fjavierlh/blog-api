@@ -1,14 +1,10 @@
 import { AnyObject } from 'mongoose';
 import { Inject, Service } from 'typedi';
-//import { OffensiveWordResponse } from '../../application/use-cases/offensive-word.response';
 import { OffensiveWord, OffensiveWordType } from '../entities/offensive-word.entity';
 import { OffensiveWordRepository } from '../repositories/offensive-word.repository';
 import { IdVO } from '../vos/id.vo';
 import { LevelVO } from '../vos/level.vo';
 import { WordVO } from '../vos/word.vo';
-//import { IdVO } from '../vos/id.vo';
-//import { LevelVO } from '../vos/level.vo';
-//import { WordVO } from '../vos/word.vo';
 
 @Service()
 export class OffensiveWordService {
@@ -27,12 +23,14 @@ export class OffensiveWordService {
 	async showAll(): Promise<OffensiveWord[]> {
 		const allOffensiveWordsData = await this.offensiveWordRepository.showAll();
 
-		const allOffensiveWordsModel = allOffensiveWordsData.map((ow: AnyObject)=> {
+		const allOffensiveWordsModel = allOffensiveWordsData.map((ow: AnyObject) => {
+			
 			const offensiveWordToModel: OffensiveWordType = {
 				id: IdVO.createWithUUID(ow.id),
 				word: WordVO.create(ow.word),
 				level: LevelVO.create(ow.level)
 			};
+			
 			return new OffensiveWord(offensiveWordToModel);
 		});
 
@@ -55,26 +53,21 @@ export class OffensiveWordService {
 		
 	}
 
-	/*
-	async updateById(idOffensiveWord: IdVO, offensiveWord: OffensiveWordType): Promise<OffensiveWordType> {
+	async updateById(idOffensiveWord: IdVO, offensiveWord: OffensiveWordType): Promise<OffensiveWord> {
+		const receivedOffensiveWord = new OffensiveWord(offensiveWord);
+		console.log('receivedOffensiveWord', receivedOffensiveWord);
+		const updatedOffensiveWord: AnyObject = await this.offensiveWordRepository.update(idOffensiveWord, receivedOffensiveWord);
+		console.log('updatedOffensiveWord', updatedOffensiveWord);
+				
+		const updatedOffensiveWordData: OffensiveWordType = {
 
-		const offensiveWordToRequest: OffensiveWordResponse = {
-			id: offensiveWord.id.value,
-			word: offensiveWord.word.value,
-			level: offensiveWord.level.value
-		};
-
-		const updatedOffensiveWord = await this.offensiveWordRepository.update(idOffensiveWord.value, offensiveWordToRequest);
-		const offensiveWordCastedToType = {
-
-			id: IdVO.createWithUUID(updatedOffensiveWord.id),
-			word: WordVO.create(updatedOffensiveWord.word),
-			level: LevelVO.create(updatedOffensiveWord.level)
+			id: receivedOffensiveWord.id ?? updatedOffensiveWord.id,
+			word: receivedOffensiveWord.word ?? updatedOffensiveWord.word,
+			level: receivedOffensiveWord.level ?? updatedOffensiveWord.level
 
 		};
 
-		return offensiveWordCastedToType;
+		return new OffensiveWord(updatedOffensiveWordData);
 	}
-	*/
 
 }

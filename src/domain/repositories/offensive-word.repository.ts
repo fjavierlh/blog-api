@@ -11,6 +11,6 @@ export interface OffensiveWordRepository {
 
     showById(idOffensiveWord: IdVO): Promise<OffensiveWord>;
 
-    // update(idOffensiveWord: IdVO, offensiveWord: OffensiveWord): Promise<OffensiveWord>;
+    update(idOffensiveWord: IdVO, offensiveWord: OffensiveWord): Promise<OffensiveWord>;
 
 }
