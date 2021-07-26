@@ -5,7 +5,7 @@ import { CreateOffensiveWordUseCase } from '../../application/use-cases/create-o
 import { DeleteOffensiveUseCase } from '../../application/use-cases/delete-offensive-word.use-case';
 import { FindAllOffensiveWordsUseCase } from '../../application/use-cases/find-all-offensive-word.use-case';
 import { FindOffensiveWordById } from '../../application/use-cases/show-offensive-word-by-id.use-case';
-import { UpdateOffensiveWordById } from '../../application/use-cases/update-offensive-word-by-id.use-case';
+import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/update-offensive-word-by-id.use-case';
 
 
 const router = express.Router();
@@ -89,7 +89,7 @@ router.put('/api/offensive-word/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 		const { word, level } = req.body;
-		const useCase = Container.get(UpdateOffensiveWordById);
+		const useCase = Container.get(UpdateOffensiveWordByIdUseCase);
 
 		const result = await useCase.execute(id, { word, level });
 		res.json(result);

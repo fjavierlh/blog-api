@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import Container from 'typedi';
 import { OffensiveWordRepositoryMongo } from '../../infrastructure/repositories/offensive-word.repository.mongo';
-import { UpdateOffensiveWordById } from './update-offensive-word-by-id.use-case';
+import { UpdateOffensiveWordByIdUseCase } from './update-offensive-word-by-id.use-case';
 
 jest.mock('./../../infrastructure/repositories/offensive-word.repository.mongo', () => {
 	return {
@@ -25,7 +25,7 @@ describe('FindOffensiveWordById Test Suite', () => {
 		const repository = new OffensiveWordRepositoryMongo();
 		Container.set('OffensiveWordRepository', repository);
         
-		const useCase: UpdateOffensiveWordById = Container.get(UpdateOffensiveWordById);
+		const useCase: UpdateOffensiveWordByIdUseCase = Container.get(UpdateOffensiveWordByIdUseCase);
 		const testId = 'f2dd593e-af8e-4754-bed3-b42d2cfce636';
 		const updatedOF = { word: 'Tested', level: 1};
 

@@ -9,7 +9,7 @@ import { OffensiveWordRequest } from './offensive-word.request';
 import { OffensiveWordResponse } from './offensive-word.response';
 
 @Service()
-export class UpdateOffensiveWordById {
+export class UpdateOffensiveWordByIdUseCase {
 
 	constructor(private offensiveWordService: OffensiveWordService) { }
 
@@ -20,9 +20,8 @@ export class UpdateOffensiveWordById {
 			word: WordVO.create(updatedOffensiveWord.word),
 			level: LevelVO.create(updatedOffensiveWord.level)   
 		};
-		//console.log('updatedOffensiveWordData', updatedOffensiveWordData);
+
 		const updatedOffensiveWordType = await this.offensiveWordService.updateById(updatedOffensiveWordData.id, updatedOffensiveWordData);
-		//console.log('updatedOffensiveWordType', updatedOffensiveWordType);
 
 		const updatedOffensiveWordResponse: OffensiveWordResponse = {
 
