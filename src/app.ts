@@ -18,6 +18,6 @@ const app: Application = express();
 app.use(json());
 app.use(offensiveWordRouter);
 
-app.listen(3000, () => {
-	console.log('Server started on http://localhost:3000');
-});
+
+
+export default app;
