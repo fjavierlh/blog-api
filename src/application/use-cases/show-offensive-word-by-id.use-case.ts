@@ -5,7 +5,7 @@ import { IdRequest } from './id.request';
 import { OffensiveWordResponse } from './offensive-word.response';
 
 @Service()
-export class ShowOffensiveWordById{
+export class FindOffensiveWordById{
 
 	constructor(private offensiveWordService: OffensiveWordService) {}
 
