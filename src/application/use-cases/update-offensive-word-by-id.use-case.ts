@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { OffensiveWordType } from '../../domain/entities/offensive-word.entity';
+import { OffensiveWord, OffensiveWordType } from '../../domain/entities/offensive-word.entity';
 import { OffensiveWordService } from '../../domain/services/offensive-word.service';
 import { IdVO } from '../../domain/vos/id.vo';
 import { LevelVO } from '../../domain/vos/level.vo';
@@ -21,7 +21,7 @@ export class UpdateOffensiveWordByIdUseCase {
 			level: LevelVO.create(updatedOffensiveWord.level)   
 		};
 
-		const updatedOffensiveWordType = await this.offensiveWordService.updateById(updatedOffensiveWordData.id, updatedOffensiveWordData);
+		const updatedOffensiveWordType: OffensiveWord = await this.offensiveWordService.updateById(updatedOffensiveWordData.id, updatedOffensiveWordData);
 
 		const updatedOffensiveWordResponse: OffensiveWordResponse = {
 
