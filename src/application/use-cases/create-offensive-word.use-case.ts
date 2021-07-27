@@ -11,7 +11,7 @@ export class CreateOffensiveWordUseCase {
 
 	constructor(private offensiveWordService: OffensiveWordService) {}
 
-	execute(offensiveWordRequest: OffensiveWordRequest): void {
+	async execute(offensiveWordRequest: OffensiveWordRequest): Promise<void> {
         
 		const offensiveWordData: OffensiveWordType = {
 			id: IdVO.create(),
@@ -19,7 +19,7 @@ export class CreateOffensiveWordUseCase {
 			level: LevelVO.create(offensiveWordRequest.level)
 		};
 		
-		this.offensiveWordService.persist(offensiveWordData);
+		await this.offensiveWordService.persist(offensiveWordData);
 	}
 
 }
