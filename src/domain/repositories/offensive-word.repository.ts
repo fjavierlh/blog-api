@@ -3,9 +3,9 @@ import { IdVO } from '../vos/id.vo';
 
 export interface OffensiveWordRepository {
     
-    save(offensiveWord: OffensiveWord): void;
+    save(offensiveWord: OffensiveWord): Promise<void>;
     
-    delete(idOffensiveWord: IdVO): void;
+    delete(idOffensiveWord: IdVO): Promise<void>;
     
     showAll(): Promise<OffensiveWord[]>;
 
