@@ -1,4 +1,5 @@
 import { Service } from 'typedi';
+import { OffensiveWord } from '../../domain/entities/offensive-word.entity';
 import { OffensiveWordService } from '../../domain/services/offensive-word.service';
 import { IdVO } from '../../domain/vos/id.vo';
 import { IdRequest } from './id.request';
@@ -12,7 +13,7 @@ export class FindOffensiveWordById{
 	async execute(idOffensiveWord: IdRequest): Promise<OffensiveWordResponse> {
 		
 		const id = IdVO.createWithUUID(idOffensiveWord);
-		const searchedOffensiveWord = await this.offensiveWordService.showById(id);
+		const searchedOffensiveWord: OffensiveWord = await this.offensiveWordService.showById(id);
 
 		const searchedOffensiveWordToResponse: OffensiveWordResponse = {
 			id: id.value,
