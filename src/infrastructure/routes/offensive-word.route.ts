@@ -1,105 +1,122 @@
 import express from 'express';
+import { Request, Response } from 'express';
+import { body, param, validationResult } from 'express-validator';
+import passport from 'passport';
 import Container from 'typedi';
 
-import { CreateOffensiveWordUseCase } from '../../application/use-cases/create-offensive-word.use-case';
-import { DeleteOffensiveUseCase } from '../../application/use-cases/delete-offensive-word.use-case';
-import { FindAllOffensiveWordsUseCase } from '../../application/use-cases/find-all-offensive-word.use-case';
-import { FindOffensiveWordById } from '../../application/use-cases/show-offensive-word-by-id.use-case';
-import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/update-offensive-word-by-id.use-case';
+import { CreateOffensiveWordUseCase } from '../../application/use-cases/offensive-word/create-offensive-word.use-case';
+import { DeleteOffensiveUseCase } from '../../application/use-cases/offensive-word/delete-offensive-word.use-case';
+import { FindAllOffensiveWordsUseCase } from '../../application/use-cases/offensive-word/find-all-offensive-word.use-case';
+import { FindOffensiveWordById } from '../../application/use-cases/offensive-word/find-offensive-word-by-id.use-case';
+import { OffensiveWordResponse } from '../../application/use-cases/offensive-word/offensive-word.response';
+import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/offensive-word/update-offensive-word-by-id.use-case';
+import { ExceptionWithCode } from '../../domain/exception-with-code';
 
 
 const router = express.Router();
 
-router.post('/api/offensive-word', (req, res) => {
+router.post('/api/offensive-word',
+	body('word').isString().notEmpty().trim().escape(),
+	body('level').isNumeric().notEmpty(),
+	async (req: Request, res: Response) => {
 
-	try {
-		const { word, level } = req.body;
-		if (!word ?? !level) {
-			throw Error(`Missing properties in request body: ${!word ? 'word, ' : ''} ${!level ? 'level' : ''}`);
+		try {
+			const errors = validationResult(req);
+
+			if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+			const { word, level } = req.body;
+
+			const newOffensiveWord = { word, level };
+			const useCase: CreateOffensiveWordUseCase = Container.get(CreateOffensiveWordUseCase);
+
+			await useCase.execute(newOffensiveWord);
+			res.status(201).json({ 'msg': `offensive word '${word}' with level ${level} created` });
+
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			return res.status(400).json({ errors: [{ msg: error.message }] });
 		}
 
-		const newOffensiveWord = { word, level };
-		const useCase = Container.get(CreateOffensiveWordUseCase);
+	});
 
-		useCase.execute(newOffensiveWord);
-		res.sendStatus(201);
+router.delete('/api/offensive-word/:id',
+	param('id').notEmpty().isUUID(),
+	async (req: Request, res: Response) => {
 
-	} catch (error) {
-		console.log('(!) Exception: ', error.message);
-		res.sendStatus(400);
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-	} 
+			const { id } = req.params;
+			const useCase = Container.get(DeleteOffensiveUseCase);
+			await useCase.execute(id);
+			
+			return res.status(200).json({ msg: `offensive word with id ${id} deleted` });
 
-});
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			return res.status(error.code).json({ errors: [{ msg: error.message }] });
+		}
 
-router.delete('/api/offensive-word/:id', (req, res) => {
-	
-	try {
-		const { id } = req.params;
-		if (!id) throw Error('Param ID is missing');
+	});
 
-		const useCase = Container.get(DeleteOffensiveUseCase);
+router.get('/api/offensive-word',
+	passport.authenticate('jwt', { session: false }),
+	async (req: Request, res: Response) => {
 
-		useCase.execute(id);
-		res.sendStatus(200);
+		try {
+			const useCase = Container.get(FindAllOffensiveWordsUseCase);
+			const result = await useCase.execute();
+			
+			return res.status(200).json(result);
 
-	} catch (error) {
-		console.log('[!] Stacktrace: ', error.stack);
-		res.sendStatus(400);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			return res.status(error.code).json({ errors: [{ msg: error.message }] });
+		}
+	});
 
-	}
+router.get('/api/offensive-word/:id',
+	param('id').notEmpty().isUUID(),
+	async (req: Request, res: Response) => {
 
-});
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+			
+			const { id } = req.params;
+			const useCase = Container.get(FindOffensiveWordById);
+			const result: OffensiveWordResponse | null = await useCase.execute(id);
+			if (!result) throw new ExceptionWithCode(404, `Offensive word with ID '${id}' not found`);
+			
+			return res.status(200).json(result);
 
-router.get('/api/offensive-word', async (req, res) => {
-	try {
-		const useCase = Container.get(FindAllOffensiveWordsUseCase);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			return res.status(error.code).json({ errors: [{ msg: error.message }] });
+		}
+	});
 
-		const result = await useCase.execute();
-		res.json(result);
+router.put('/api/offensive-word/:id',
+	param('id').notEmpty().isUUID(),
+	async (req: Request, res: Response) => {
 
-	} catch (error) {
-		console.log('[!] Stacktrace: ', error.stack);
-		res.sendStatus(404);
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
+			const { id } = req.params;
+			const { word, level } = req.body;
+			const useCase = Container.get(UpdateOffensiveWordByIdUseCase);
+			const result = await useCase.execute(id, { word, level });
+			
+			return res.status(200).json(result);
 
-	}
-});
-
-router.get('/api/offensive-word/:id', async (req, res) => {
-
-	try {
-		const { id } = req.params;
-		if (!id) throw Error('Param ID is missing');
-
-		const useCase = Container.get(FindOffensiveWordById);
-
-		const result = await useCase.execute(id);
-		res.json(result);
-
-	} catch (error) {
-		console.log('[!] Stacktrace: ', error.stack);
-		res.sendStatus(404);
-
-	} 
-});
-
-router.put('/api/offensive-word/:id', async (req, res) => {
-	
-	try {
-		const { id } = req.params;
-		const { word, level } = req.body;
-		const useCase = Container.get(UpdateOffensiveWordByIdUseCase);
-
-		const result = await useCase.execute(id, { word, level });
-		res.json(result);
-
-	} catch(error) {
-		console.log('[!] Stacktrace: ', error.stack);
-		res.sendStatus(404);
-
-	}
-	
-});
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			return res.status(error.code).json({ errors: [{ msg: error.message }] });
+		}
+	});
 
 export { router as offensiveWordRouter };
