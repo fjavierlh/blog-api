@@ -3,15 +3,16 @@ import { OffensiveWordModel } from './offensive-word.schema';
 import { OffensiveWordRepository } from '../../domain/repositories/offensive-word.repository';
 import { OffensiveWord, OffensiveWordType } from '../../domain/entities/offensive-word.entity';
 import { IdVO } from '../../domain/vos/id.vo';
-import { WordVO } from '../../domain/vos/word.vo';
-import { LevelVO } from '../../domain/vos/level.vo';
+import { WordVO } from '../../domain/vos/offensive-word/word.vo';
+import { LevelVO } from '../../domain/vos/offensive-word/level.vo';
 import { AnyObject } from 'mongoose';
 
 export class OffensiveWordRepositoryMongo implements OffensiveWordRepository {
 	
 	/**
 	 * 
-	 * @param offensiveWord 
+	 * @param offensiveWord OffensiveWord object with valid arguments
+	 * @returns a promise with void return
 	 */
 	async save(offensiveWord: OffensiveWord): Promise<void> {
 
@@ -32,7 +33,7 @@ export class OffensiveWordRepositoryMongo implements OffensiveWordRepository {
 	 * @returns 
 	 */
 	async delete(idOffensiveWord: IdVO): Promise<void> {
-		return OffensiveWordModel.deleteOne({ id: idOffensiveWord.value }).exec();
+		OffensiveWordModel.deleteOne({ id: idOffensiveWord.value }).exec();
 	}
 
 	/**
@@ -60,15 +61,17 @@ export class OffensiveWordRepositoryMongo implements OffensiveWordRepository {
 	 * @param idOffensiveWord 
 	 * @returns 
 	 */
-	async showById(idOffensiveWord: IdVO): Promise<OffensiveWord> {
+	async findById(idOffensiveWord: IdVO): Promise<OffensiveWord|null> {
 		
-		const searchedOffensiveWord: AnyObject = await OffensiveWordModel.find({ id: idOffensiveWord.value }).exec();
-
+		const searchedOffensiveWord: AnyObject = await OffensiveWordModel.findOne({ id: idOffensiveWord.value }).exec();
+		
+		if(!searchedOffensiveWord) return null;
+		
 		const offensiveWordModel: OffensiveWordType = {
 
-			id: IdVO.createWithUUID(searchedOffensiveWord[0].id),
-			word: WordVO.create(searchedOffensiveWord[0].word),
-			level: LevelVO.create(searchedOffensiveWord[0].level)
+			id: IdVO.createWithUUID(searchedOffensiveWord.id),
+			word: WordVO.create(searchedOffensiveWord.word),
+			level: LevelVO.create(searchedOffensiveWord.level)
 
 		};
 

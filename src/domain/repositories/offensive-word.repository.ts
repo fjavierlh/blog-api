@@ -9,7 +9,7 @@ export interface OffensiveWordRepository {
     
     showAll(): Promise<OffensiveWord[]>;
 
-    showById(idOffensiveWord: IdVO): Promise<OffensiveWord>;
+    findById(idOffensiveWord: IdVO): Promise<OffensiveWord|null>;
 
     update(idOffensiveWord: IdVO, offensiveWord: OffensiveWord): Promise<OffensiveWord>;
 
