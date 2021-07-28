@@ -15,24 +15,26 @@ export class OffensiveWordService {
 	}
 
 	async remove(idOffensiveWord: IdVO): Promise<void> {
-		this.offensiveWordRepository.delete(idOffensiveWord);
+		await this.checksIfIDExists(idOffensiveWord);
+		await this.offensiveWordRepository.delete(idOffensiveWord);
 	}
 
 	async showAll(): Promise<OffensiveWord[]> {
 		return this.offensiveWordRepository.showAll();
 	}
 
-	async showById(idOffensiveWord: IdVO): Promise<OffensiveWord> {
-		return this.offensiveWordRepository.showById(idOffensiveWord);
+	async showById(idOffensiveWord: IdVO): Promise<OffensiveWord|null> {
+		return this.offensiveWordRepository.findById(idOffensiveWord);
 	}
 
 	async updateById(idOffensiveWord: IdVO, offensiveWord: OffensiveWordType): Promise<OffensiveWord> {
+		await this.checksIfIDExists(idOffensiveWord);
 		return this.offensiveWordRepository.update(idOffensiveWord, new OffensiveWord(offensiveWord));
 	}
 
 	private async checksIfIDExists(id: IdVO): Promise<void> {
-		const offensiveWord = await this.showById(id);
-		if (!offensiveWord) throw new ExceptionWithCode(404, `ID ${id} not found`);
+		const offensiveWord: OffensiveWord|null = await this.showById(id);
+		if (!offensiveWord) throw new ExceptionWithCode(404, 'ID not found');
 	}
 
 }
