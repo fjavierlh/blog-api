@@ -8,7 +8,7 @@ import { OffensiveWordRequest} from './offensive-word.request';
 import { OffensiveWordRepositoryMongo } from './../../infrastructure/repositories/offensive-word.repository.mongo';
 
 describe('CreateOffensiveWordUseCase', () => {
-	it('should create an offensive word and persit it', () => {
+	it('should create an offensive word and persit it', async () => {
 		const repository = new OffensiveWordRepositoryMongo();
 
 		Container.set('OffensiveWordRepository', repository);
@@ -19,7 +19,7 @@ describe('CreateOffensiveWordUseCase', () => {
 			level: 1
 		};
 
-		useCase.execute(offensiveWordRequest);
+		await useCase.execute(offensiveWordRequest);
 		expect(repository.save).toBeCalled();
 
 	});

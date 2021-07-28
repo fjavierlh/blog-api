@@ -12,7 +12,7 @@ jest.mock('./../../infrastructure/repositories/offensive-word.repository.mongo',
 	return {
 		OffensiveWordRepositoryMongo: jest.fn().mockImplementation(() => {
 			return {
-				showById: jest.fn().mockImplementation(() => 
+				findById: jest.fn().mockImplementation(() => 
 					new OffensiveWord({id: IdVO.create(), word: WordVO.create('Test1'), level: LevelVO.create(1)})
 				)
 			};
