@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import Container from 'typedi';
 import { OffensiveWord } from '../../../domain/entities/offensive-word.entity';
 import { IdVO } from '../../../domain/vos/id.vo';
-import { LevelVO } from '../../../domain/vos/level.vo';
-import { WordVO } from '../../../domain/vos/word.vo';
+import { LevelVO } from '../../../domain/vos/offensive-word/level.vo';
+import { WordVO } from '../../../domain/vos/offensive-word/word.vo';
 import { OffensiveWordRepositoryMongo } from '../../../infrastructure/repositories/offensive-word.repository.mongo';
 import { UpdateOffensiveWordByIdUseCase } from './update-offensive-word-by-id.use-case';
 

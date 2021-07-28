@@ -1,4 +1,4 @@
-import { ExceptionWithCode } from '../exception-with-code';
+import { ExceptionWithCode } from '../../exception-with-code';
 
 export class LevelVO {
 

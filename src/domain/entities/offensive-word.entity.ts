@@ -1,6 +1,6 @@
 import { IdVO } from '../vos/id.vo';
-import { LevelVO } from '../vos/level.vo';
-import { WordVO } from '../vos/word.vo';
+import { LevelVO } from '../vos/offensive-word/level.vo';
+import { WordVO } from '../vos/offensive-word/word.vo';
 
 export type OffensiveWordType = {
     id: IdVO;

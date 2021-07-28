@@ -21,8 +21,8 @@ import { OffensiveWordRepositoryMongo } from '../../../infrastructure/repositori
 import { FindAllOffensiveWordsUseCase } from './find-all-offensive-word.use-case';
 
 import { IdVO } from '../../../domain/vos/id.vo';
-import { WordVO } from '../../../domain/vos/word.vo';
-import { LevelVO } from '../../../domain/vos/level.vo';
+import { WordVO } from '../../../domain/vos/offensive-word/word.vo';
+import { LevelVO } from '../../../domain/vos/offensive-word/level.vo';
 import { OffensiveWord } from '../../../domain/entities/offensive-word.entity';
 
 describe('FindAllOffensiveWordsUseCase Test Suite', () => {
