@@ -13,20 +13,21 @@ export class SignInUserUseCase {
 	constructor(private userService: UserService) { }
 
 	async execute(request: SignInRequest): Promise<string|null > {
+
 		const user: User | null = await this.userService.findByEmail(EmailVO.create(request.email));
 
 		if(!user) throw new ExceptionWithCode(404, 'User not found');
 
 		const plainPass = PasswordVO.create(request.password);
 		const isValid = await this.userService.isValidPassword(plainPass, user);
-
-		if(!isValid) {
+		
+		if(isValid) {
 			return jwt.sign({
 				email: user.email.value,
 			},
 			'my-secret',
 			{
-				expiresIn: 86400 //24 horas
+				expiresIn: 86400 //24 hours
 			});
 		}
         
