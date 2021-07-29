@@ -1,8 +1,6 @@
 import { v4, validate} from 'uuid';
 import { ExceptionWithCode } from '../exception-with-code';
 
-export type IdVOType = string;
-
 export class IdVO {
 
 	get value(): string {
