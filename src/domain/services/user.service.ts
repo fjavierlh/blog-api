@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { User, UserType } from '../entities/user.entity';
 import { PasswordVO } from '../vos/auth-user/password.vo';
 import { EmailVO } from '../vos/auth-user/email.vo';
+import { ExceptionWithCode } from '../exception-with-code';
 
 @Service()
 export class UserService {
@@ -32,5 +33,9 @@ export class UserService {
 		return this.userRepository.getUserByEmail(email);
 	}
 
+	private async checkIfEmailExist(email: EmailVO): Promise<void> {
+		const user = await this.userRepository.getUserByEmail(email);
+		if(!user) throw new ExceptionWithCode(404, `Doens't exist user with email ${email.value}`);
+	}
 
 }
