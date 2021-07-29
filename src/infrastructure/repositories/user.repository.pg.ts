@@ -10,13 +10,13 @@ export class UserRepositoryPostgres implements UserRepository {
 	async saveUser(user: User): Promise<void> {
 		const id = user.id.value;
 		const email = user.email.value;
-		const password = user.email.value;
+		const password = user.password.value;
 
 		const userModel = UserModel.build({id, email, password});
 		await userModel.save();
 	}
 
-	async getUserByEmail(email: EmailVO): Promise<User | null> {
+	async getUserByEmail(email: EmailVO): Promise<User|null> {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const user: any|null = await UserModel.findOne({where: {email: email.value}});
 
