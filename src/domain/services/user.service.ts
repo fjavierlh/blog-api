@@ -5,6 +5,7 @@ import { User, UserType } from '../entities/user.entity';
 import { PasswordVO } from '../vos/auth-user/password.vo';
 import { EmailVO } from '../vos/auth-user/email.vo';
 import { ExceptionWithCode } from '../exception-with-code';
+import { Role } from '../vos/auth-user/role.vo';
 
 @Service()
 export class UserService {
@@ -23,7 +24,8 @@ export class UserService {
 		const newUser: UserType = {
 			id: user.id,
 			email: user.email,
-			password: encryptedPassword
+			password: encryptedPassword,
+			role: user.role
 		};
 
 		await this.userRepository.saveUser(new User(newUser));
