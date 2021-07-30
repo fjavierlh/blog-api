@@ -11,6 +11,8 @@ import { FindOffensiveWordById } from '../../application/use-cases/offensive-wor
 import { OffensiveWordResponse } from '../../application/use-cases/offensive-word/offensive-word.response';
 import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/offensive-word/update-offensive-word-by-id.use-case';
 import { ExceptionWithCode } from '../../domain/exception-with-code';
+import { Role } from '../../domain/vos/auth-user/role.vo';
+import { hasRole } from '../middlewares/roles.middleware';
 
 
 const router = express.Router();
@@ -65,6 +67,7 @@ router.delete('/api/offensive-word/:id',
 
 router.get('/api/offensive-word',
 	passport.authenticate('jwt', { session: false }),
+	hasRole([Role.USER]),
 	async (req: Request, res: Response) => {
 
 		try {
