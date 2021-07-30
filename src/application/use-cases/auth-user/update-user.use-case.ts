@@ -7,6 +7,8 @@ import { PasswordVO } from '../../../domain/vos/auth-user/password.vo';
 import { EmailRequest } from './email.request';
 import { UpdateUserRequest } from './update-user.request';
 import bcrypt from 'bcrypt';
+import { REAL } from 'sequelize';
+import { Role, RoleVO } from '../../../domain/vos/auth-user/role.vo';
 
 @Service()
 export class UpdateUserUseCase {
@@ -31,7 +33,8 @@ export class UpdateUserUseCase {
 		const updatedUserType: UserType = {
 			id: user.id,
 			email: EmailVO.create(updatedEmail ?? user.email.value),
-			password: PasswordVO.create(newPaswordHashed ?? user.password.value)
+			password: PasswordVO.create(newPaswordHashed ?? user.password.value),
+			role: RoleVO.create(Role.USER)
 		};
 
 		await this.userService.updateByEmail(emailToVO, new User(updatedUserType));

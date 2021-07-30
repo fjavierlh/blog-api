@@ -5,6 +5,7 @@ import { EmailVO } from '../../../domain/vos/auth-user/email.vo';
 import { IdVO } from '../../../domain/vos/id.vo';
 import { PasswordVO } from '../../../domain/vos/auth-user/password.vo';
 import { SignUpRequest } from './sign-up.request';
+import { Role, RoleVO } from '../../../domain/vos/auth-user/role.vo';
 
 @Service()
 export class SignUpUserUseCase {
@@ -16,7 +17,8 @@ export class SignUpUserUseCase {
 		const user: UserType = {
 			id: IdVO.create(),
 			email: EmailVO.create(request.email),
-			password: PasswordVO.create(request.password)
+			password: PasswordVO.create(request.password),
+			role: RoleVO.create(Role.USER)
 		};
 
 		await this.userService.persist(new User(user));
