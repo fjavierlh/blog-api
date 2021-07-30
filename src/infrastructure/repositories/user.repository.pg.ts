@@ -4,11 +4,12 @@ import { EmailVO } from '../../domain/vos/auth-user/email.vo';
 import { IdVO } from '../../domain/vos/id.vo';
 import { PasswordVO } from '../../domain/vos/auth-user/password.vo';
 import { UserModel } from './user.schema';
+import { RoleVO } from '../../domain/vos/auth-user/role.vo';
 
 export class UserRepositoryPostgres implements UserRepository {
-	
-	async updateUserByEmail(email: EmailVO, updatedUser: User): Promise<void|null> {
-		const user: User|null = await this.getUserByEmail(email);
+
+	async updateUserByEmail(email: EmailVO, updatedUser: User): Promise<void | null> {
+		const user: User | null = await this.getUserByEmail(email);
 
 		if (!user) return null;
 
@@ -30,21 +31,23 @@ export class UserRepositoryPostgres implements UserRepository {
 		const id = user.id.value;
 		const email = user.email.value;
 		const password = user.password.value;
+		const role = user.role.value;
 
-		const userModel = UserModel.build({id, email, password});
+		const userModel = UserModel.build({ id, email, password, role });
 		await userModel.save();
 	}
 
-	async getUserByEmail(email: EmailVO): Promise<User|null> {
+	async getUserByEmail(email: EmailVO): Promise<User | null> {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const user: any|null = await UserModel.findOne({where: {email: email.value}});
+		const user: any | null = await UserModel.findOne({ where: { email: email.value } });
 
-		if(!user) return null;
+		if (!user) return null;
 
 		const userData: UserType = {
 			id: IdVO.createWithUUID(user.id),
 			email: EmailVO.create(user.email),
-			password: PasswordVO.create(user.password)
+			password: PasswordVO.create(user.password),
+			role: RoleVO.create(user.role)
 		};
 
 		return new User(userData);
