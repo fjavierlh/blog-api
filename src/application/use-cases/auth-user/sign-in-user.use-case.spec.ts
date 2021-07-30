@@ -34,7 +34,6 @@ describe('SignInUserUseCase test suite', () => {
 
 	it('should sign in an user with valid credentials', async () => {
 		
-
 		const useCase = Container.get(SignInUserUseCase);
 
 		const userTest: SignInRequest = {
@@ -43,7 +42,6 @@ describe('SignInUserUseCase test suite', () => {
 		};
 
 		const returnedToken = await useCase.execute(userTest);
-		console.log(returnedToken);
 		expect(repository.getUserByEmail).toBeCalled();
 		expect(typeof returnedToken).toBe('string');
 	});
