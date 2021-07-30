@@ -6,6 +6,25 @@ import { PasswordVO } from '../../domain/vos/auth-user/password.vo';
 import { UserModel } from './user.schema';
 
 export class UserRepositoryPostgres implements UserRepository {
+	
+	async updateUserByEmail(email: EmailVO, updatedUser: User): Promise<void|null> {
+		const user: User|null = await this.getUserByEmail(email);
+
+		if (!user) return null;
+
+		const id = user.id.value;
+		const updatedEmail = updatedUser.email.value;
+		const updatedPassword = updatedUser.password.value;
+
+		await UserModel.update({
+			email: updatedEmail,
+			password: updatedPassword,
+		}, {
+			where: {
+				id: id,
+			}
+		});
+	}
 
 	async saveUser(user: User): Promise<void> {
 		const id = user.id.value;
