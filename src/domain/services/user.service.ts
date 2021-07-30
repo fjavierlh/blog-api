@@ -29,8 +29,13 @@ export class UserService {
 		await this.userRepository.saveUser(new User(newUser));
 	}
 
-	async findByEmail(email: EmailVO): Promise<User | null> {
+	async findByEmail(email: EmailVO): Promise<User|null> {
 		return this.userRepository.getUserByEmail(email);
+	}
+
+	async updateByEmail(email: EmailVO, updatedUser: UserType): Promise<void|null> {
+		await this.checkIfEmailExist(email);
+		await this.userRepository.updateUserByEmail(email, new User(updatedUser)); 
 	}
 
 	private async checkIfEmailExist(email: EmailVO): Promise<void> {
