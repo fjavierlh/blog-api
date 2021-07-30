@@ -5,6 +5,8 @@ export interface UserRepository {
 
     saveUser(user: User): Promise<void>;
 
-    getUserByEmail(email: EmailVO): Promise<User | null>;
+    getUserByEmail(email: EmailVO): Promise<User|null>;
+
+    updateUserByEmail(email: EmailVO, updatedUser: User): Promise<void|null>;
 
 }
