@@ -18,6 +18,7 @@ const router = express.Router();
 router.post('/api/offensive-word',
 	body('word').isString().notEmpty().trim().escape(),
 	body('level').isNumeric().notEmpty(),
+	passport.authenticate('jwt', { session: false }),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -42,6 +43,7 @@ router.post('/api/offensive-word',
 
 router.delete('/api/offensive-word/:id',
 	param('id').notEmpty().isUUID(),
+	passport.authenticate('jwt', { session: false }),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -79,6 +81,7 @@ router.get('/api/offensive-word',
 
 router.get('/api/offensive-word/:id',
 	param('id').notEmpty().isUUID(),
+	passport.authenticate('jwt', { session: false }),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -100,6 +103,7 @@ router.get('/api/offensive-word/:id',
 
 router.put('/api/offensive-word/:id',
 	param('id').notEmpty().isUUID(),
+	passport.authenticate('jwt', { session: false }),
 	async (req: Request, res: Response) => {
 
 		try {
