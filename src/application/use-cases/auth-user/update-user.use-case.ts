@@ -7,7 +7,6 @@ import { PasswordVO } from '../../../domain/vos/auth-user/password.vo';
 import { EmailRequest } from './email.request';
 import { UpdateUserRequest } from './update-user.request';
 import bcrypt from 'bcrypt';
-import { REAL } from 'sequelize';
 import { Role, RoleVO } from '../../../domain/vos/auth-user/role.vo';
 
 @Service()
