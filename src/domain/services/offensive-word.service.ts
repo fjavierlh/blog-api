@@ -34,7 +34,7 @@ export class OffensiveWordService {
 
 	private async checksIfIDExists(id: IdVO): Promise<void> {
 		const offensiveWord: OffensiveWord|null = await this.showById(id);
-		if (!offensiveWord) throw new ExceptionWithCode(404, 'ID not found');
+		if (!offensiveWord) throw new ExceptionWithCode(404, `ID '${id.value}' not found`);
 	}
 
 }
