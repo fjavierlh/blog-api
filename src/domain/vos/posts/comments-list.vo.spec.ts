@@ -1,4 +1,4 @@
-import { CommentPost } from '../../entities/comment.entity';
+import { CommentPost } from '../../entities/comment-post.entity';
 import { CommentsListVO } from './comments-list.vo';
 
 describe('CommentsListVO', () => {

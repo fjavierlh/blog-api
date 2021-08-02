@@ -1,4 +1,4 @@
-import { CommentPost } from '../../entities/comment.entity';
+import { CommentPost } from '../../entities/comment-post.entity';
 
 
 export class CommentsListVO {
