@@ -1,4 +1,4 @@
-export class CommentDate {
+export class CommentDateVO {
 
 	private constructor(private commentDate: Date) { }
 
@@ -6,8 +6,8 @@ export class CommentDate {
 		return this.commentDate.getTime();
 	}
 
-	static create(commentDate: Date): CommentDate {
-		return new CommentDate(commentDate);
+	static create(commentDate: Date): CommentDateVO {
+		return new CommentDateVO(commentDate);
 	}
 
 }
