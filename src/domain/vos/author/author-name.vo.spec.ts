@@ -8,10 +8,10 @@ describe('AuthorVO', () => {
 	});
 
 	it(`should throws an error if author length is lower than ${AuthorNameVO.MIN_LENGTH}`, () => {
-		const invalidAuthor = 'Loki';
+		const invalidAuthor = 'Du';
 		expect(() => AuthorNameVO.create(invalidAuthor))
 			.toThrow(
-				`El nombre del autor debe contener entre 5 y 30 caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
+				`El nombre del autor debe contener entre 3 y 10 caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
 			);
 	});
 
@@ -19,7 +19,7 @@ describe('AuthorVO', () => {
 		const invalidAuthor = 'abcde'.repeat(7);
 		expect(() => AuthorNameVO.create(invalidAuthor))
 			.toThrow(
-				`El nombre del autor debe contener entre 5 y 30 caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
+				`El nombre del autor debe contener entre 3 y 10 caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
 			);
 	});
 });
