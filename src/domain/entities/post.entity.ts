@@ -1,8 +1,8 @@
 import { AuthorNameVO } from '../vos/author/author-name.vo';
 import { AuthorNicknameVO } from '../vos/author/author-nickname.vo';
 import { IdVO } from '../vos/id.vo';
-import { PostContentVO } from '../vos/posts/text.vo';
-import { PostTitleVO } from '../vos/posts/title.vo';
+import { PostContentVO } from '../vos/posts/post-content.vo';
+import { PostTitleVO } from '../vos/posts/post-title.vo';
 import { CommentPost } from './comment-post.entity';
 
 export type PostType = {
