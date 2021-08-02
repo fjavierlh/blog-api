@@ -18,18 +18,14 @@ describe('Author Entity Test Suite', () => {
 		expect(author.nickname.value).toBe('test');
 	});
 
-	it('should throw error if create a offensive word with invalid arguments', () => {
+	it('should throw error if create a author with invalid arguments', () => {
 
 		expect(() => {
-
-			const authorType: AuthorType = {
+			new Author({
 				id: IdVO.createWithUUID('e2a4ff7d-60cc-48b1-8e9f-c7b83a60ce7x'),
 				name: AuthorNameVO.create('A'),
 				nickname: AuthorNicknameVO.create('A')
-			};
-
-			new Author(authorType);
-
+			});
 		}).toThrow();
 
 	});
