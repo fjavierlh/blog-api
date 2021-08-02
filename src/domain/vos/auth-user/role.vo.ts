@@ -12,5 +12,6 @@ export class RoleVO {
 
 export enum Role {
     ADMIN = 'ADMIN',
+	PUBLISHER = 'PUBLISHER',
     USER = 'USER'
 }
