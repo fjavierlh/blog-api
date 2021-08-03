@@ -8,6 +8,17 @@ import { RoleVO } from '../../domain/vos/auth-user/role.vo';
 
 export class UserRepositoryPostgres implements UserRepository {
 
+
+	async deleteUser(email: EmailVO): Promise<void | null> {
+		const rowsDeleted = await UserModel.destroy({
+			where: {
+				email: email.value
+			}
+		});
+
+		if (!rowsDeleted) return null;
+	}
+
 	async updateUserByEmail(email: EmailVO, updatedUser: User): Promise<void | null> {
 		const user: User | null = await this.getUserByEmail(email);
 
