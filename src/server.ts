@@ -1,5 +1,5 @@
-import app from './app';
+import app, { HOSTNAME, SERVER_PORT, TRANSFER_PROTOCOL } from './app';
 
-app.listen(3000, () => {
-	console.log('Server started on http://localhost:3000');
+app.listen(SERVER_PORT, () => {
+	console.log(`Server started on ${TRANSFER_PROTOCOL}://${HOSTNAME}:${SERVER_PORT}`);
 });

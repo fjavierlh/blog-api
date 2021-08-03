@@ -43,6 +43,10 @@ app.use(authRouter);
 app.use(passport.initialize());
 passport.use(passportMiddelware);
 
+export const TRANSFER_PROTOCOL = process.env.TRANSFER_PROTOCOL;
+export const SERVER_PORT = process.env.SERVER_PORT;
+export const HOSTNAME = process.env.HOST;
+
 const options: Options = {
 	definition: {
 		openapi: '3.0.0',
@@ -53,7 +57,7 @@ const options: Options = {
 		},
 		servers: [
 			{
-				url: 'http://localhost:3000/api'
+				url: `${TRANSFER_PROTOCOL}://${SERVER_PORT}:${HOSTNAME}/api`
 			}
 		]
 	},

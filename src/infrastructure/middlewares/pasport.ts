@@ -3,9 +3,11 @@ import Container from 'typedi';
 import { UserService } from '../../domain/services/user.service';
 import { EmailVO } from '../../domain/vos/auth-user/email.vo';
 
+
+
 const options: StrategyOptions = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-	secretOrKey: 'my-secret'
+	secretOrKey: process.env.AUTH_TOKEN_SECRET ?? 'my-secret'
     
 };
 

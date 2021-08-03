@@ -1,5 +1,12 @@
 import { Sequelize } from 'sequelize';
-const sequelize = new Sequelize('postgres://pguser:pguser@localhost:5432/pgdb');
+
+const USER = process.env.POSTGRES_USER ?? 'pguser';
+const PASSWORD = process.env.POSTGRES_PASSWORD ?? 'pguser';
+const HOST = process.env.POSTGRES_HOST ?? 'localhost';
+const PORT = process.env.POSTGRES_PORT ?? '5432';
+const DB_NAME = process.env.POSTGRES_DB ?? 'pgdb';
+
+const sequelize = new Sequelize(`postgres://${USER}:${PASSWORD}@${HOST}:${PORT}/${DB_NAME}`);
 
 const connectToUsersdDB = async (): Promise<void> => {
 

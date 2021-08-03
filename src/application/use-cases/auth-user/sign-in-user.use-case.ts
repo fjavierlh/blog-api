@@ -25,7 +25,7 @@ export class SignInUserUseCase {
 			return jwt.sign({
 				email: user.email.value,
 			},
-			'my-secret',
+			process.env.AUTH_TOKEN_SECRET ?? 'my-secret',
 			{
 				expiresIn: 86400 //24 hours
 			});
