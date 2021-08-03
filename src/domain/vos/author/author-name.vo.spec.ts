@@ -11,7 +11,7 @@ describe('AuthorVO', () => {
 		const invalidAuthor = 'Du';
 		expect(() => AuthorNameVO.create(invalidAuthor))
 			.toThrow(
-				`El nombre del autor debe contener entre 3 y 10 caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
+				`El nombre del autor debe contener entre ${AuthorNameVO.MIN_LENGTH} y ${AuthorNameVO.MAX_LENGTH} caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
 			);
 	});
 
@@ -19,7 +19,7 @@ describe('AuthorVO', () => {
 		const invalidAuthor = 'abcde'.repeat(7);
 		expect(() => AuthorNameVO.create(invalidAuthor))
 			.toThrow(
-				`El nombre del autor debe contener entre 3 y 10 caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
+				`El nombre del autor debe contener entre ${AuthorNameVO.MIN_LENGTH} y ${AuthorNameVO.MAX_LENGTH} caracteres, ${invalidAuthor} tiene ${invalidAuthor.length}`
 			);
 	});
 });

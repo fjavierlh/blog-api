@@ -1,10 +1,10 @@
 export class AuthorNameVO {
 
 	static get MIN_LENGTH(): number {
-		return 3;
+		return 5;
 	}
 	static get MAX_LENGTH(): number {
-		return 10;
+		return 30;
 	}
 
 	private constructor(private author: string) { }

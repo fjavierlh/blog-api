@@ -7,14 +7,14 @@ describe('Author Entity Test Suite', () => {
 	it('should create a author', () => {
 		const authorType: AuthorType = {
 			id: IdVO.createWithUUID('e2a4ff7d-60cc-48b1-8e9f-c7b83a60ce7b'),
-			name: AuthorNameVO.create('Test'),
+			name: AuthorNameVO.create('Test Author Name'),
 			nickname: AuthorNicknameVO.create('test')
 		};
 
 		const author = new Author(authorType);
 
 		expect(author.id.value).toBe('e2a4ff7d-60cc-48b1-8e9f-c7b83a60ce7b');
-		expect(author.name.value).toBe('Test');
+		expect(author.name.value).toBe('Test Author Name');
 		expect(author.nickname.value).toBe('test');
 	});
 
