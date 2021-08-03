@@ -3,33 +3,31 @@ import Container from 'typedi';
 import { UserRepositoryPostgres } from '../../../infrastructure/repositories/user.repository.pg';
 import { SignUpUserUseCase } from './sign-up-user.use-case';
 import { SignUpRequest } from './sign-up.request';
+import { IdVO } from '../../../domain/vos/id.vo';
 
-//jest.mock('./../../../infrastructure/repositories/user.repository.pg');
+jest.mock('./../../../infrastructure/repositories/user.repository.pg');
+const mockUserRepositoryMongo = UserRepositoryPostgres as jest. MockedClass<typeof UserRepositoryPostgres>;
 
-jest.mock('./../../../infrastructure/repositories/user.repository.pg', () => {
-	return {
-		UserRepositoryPostgres: jest.fn().mockImplementation(() => {
-			return { saveUser: jest.fn() };
-		})
-	};
-});
 
 describe('SignUpUserUseCase test suite', () => {
-	it('should sign up an user', async () => {
+	let userRepository: UserRepositoryPostgres;
+	
+	beforeEach(() => {
+		mockUserRepositoryMongo.mockClear();
+		userRepository = new UserRepositoryPostgres();
+		Container.set('UserRepository', userRepository);
+	});
 
-		const repository = new UserRepositoryPostgres();
-
-		Container.set('UserRepository', repository);
-
-		const useCase = Container.get(SignUpUserUseCase);
-
+	it('should sign up an user and return a valid UUID', async () => {
+		const signUpuseCase = Container.get(SignUpUserUseCase);
 		const userTest: SignUpRequest = {
 			email: 'hi@mymail.com',
 			password: '@bCd3fGh1#'
 		};
 
-		await useCase.execute(userTest);
-		expect(repository.saveUser).toBeCalled();
-
+		const receivedUUID = await signUpuseCase.execute(userTest);
+		expect(userRepository.saveUser).toBeCalled();
+		expect(() => IdVO.createWithUUID(receivedUUID)).not.toThrow();
 	});
+	
 });
