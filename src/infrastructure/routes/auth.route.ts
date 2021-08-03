@@ -6,6 +6,7 @@ import Container from 'typedi';
 import { SignInUserUseCase } from '../../application/use-cases/auth-user/sign-in-user.use-case';
 import { SignUpUserUseCase } from '../../application/use-cases/auth-user/sign-up-user.use-case';
 import { UpdateUserUseCase } from '../../application/use-cases/auth-user/update-user.use-case';
+import { CreateAuthorUseCase } from '../../application/use-cases/author/create-author.use-case';
 
 const router = express.Router();
 
@@ -36,8 +37,10 @@ router.post('/api/login',
 
 
 router.post('/api/sign-up',
-	body('email').notEmpty(),
-	body('password').notEmpty(),
+	body('email').notEmpty().isString(),
+	body('password').notEmpty().isString(),
+	body('name').notEmpty().isString().isLength({ min: 5, max: 30 }),
+	body('nickname').notEmpty().isString().isLength({ min: 3, max: 10 }),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -46,9 +49,14 @@ router.post('/api/sign-up',
 				return res.status(400).json({ errors: errors.array() });
 			}
 
-			const useCase = Container.get(SignUpUserUseCase);
+			const signUpUseCase = Container.get(SignUpUserUseCase);
 			const { email, password } = req.body;
-			await useCase.execute({ email, password });
+			
+			const createAuthorUseCase = Container.get(CreateAuthorUseCase);
+			const { name, nickname } = req.body;
+
+			const id = await signUpUseCase.execute({ email, password });
+			await createAuthorUseCase.execute(id, {name, nickname});
 
 			return res.status(201).json({ status: 'created' });
 
