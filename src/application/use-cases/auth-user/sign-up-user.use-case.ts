@@ -12,7 +12,7 @@ export class SignUpUserUseCase {
 
 	constructor(private userService: UserService) {}
 
-	async execute(request: SignUpRequest): Promise<void> {
+	async execute(request: SignUpRequest): Promise<string> {
 
 		const user: UserType = {
 			id: IdVO.create(),
@@ -22,6 +22,8 @@ export class SignUpUserUseCase {
 		};
 
 		await this.userService.persist(new User(user));
+
+		return user.id.value;
 	}
 
 }
