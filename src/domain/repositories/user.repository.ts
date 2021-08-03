@@ -9,4 +9,6 @@ export interface UserRepository {
 
     updateUserByEmail(email: EmailVO, updatedUser: User): Promise<void|null>;
 
+    deleteUser(email: EmailVO): Promise<void|null>;
+
 }
