@@ -16,8 +16,8 @@ export class UserService {
 	}
 
 	async persist(user: User): Promise<void> {
-
-		const hash = await bcrypt.hash(user.password.value, 10);
+		const SALT = process.env.SALT ?? 10;
+		const hash = await bcrypt.hash(user.password.value, +SALT);
 		const encryptedPassword = PasswordVO.create(hash);
 
 		const newUser: UserType = {
