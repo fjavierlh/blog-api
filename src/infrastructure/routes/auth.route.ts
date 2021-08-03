@@ -7,6 +7,7 @@ import { SignInUserUseCase } from '../../application/use-cases/auth-user/sign-in
 import { SignUpUserUseCase } from '../../application/use-cases/auth-user/sign-up-user.use-case';
 import { UpdateUserUseCase } from '../../application/use-cases/auth-user/update-user.use-case';
 import { CreateAuthorUseCase } from '../../application/use-cases/author/create-author.use-case';
+import { logger } from '../config/logger';
 
 const router = express.Router();
 
@@ -16,6 +17,8 @@ router.post('/api/login',
 	async (req: Request, res: Response) => {
 
 		try {
+			logger.debug('Debug logger!');
+
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return res.status(400).json({ errors: errors.array() });
