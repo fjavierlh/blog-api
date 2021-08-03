@@ -5,7 +5,6 @@ import { User, UserType } from '../entities/user.entity';
 import { PasswordVO } from '../vos/auth-user/password.vo';
 import { EmailVO } from '../vos/auth-user/email.vo';
 import { ExceptionWithCode } from '../exception-with-code';
-import { Role } from '../vos/auth-user/role.vo';
 
 @Service()
 export class UserService {
@@ -38,6 +37,10 @@ export class UserService {
 	async updateByEmail(email: EmailVO, updatedUser: UserType): Promise<void|null> {
 		await this.checkIfEmailExist(email);
 		await this.userRepository.updateUserByEmail(email, new User(updatedUser)); 
+	}
+
+	async deleteUser(email: EmailVO): Promise<void | null> {
+		await this.userRepository.deleteUser(email);
 	}
 
 	private async checkIfEmailExist(email: EmailVO): Promise<void> {
