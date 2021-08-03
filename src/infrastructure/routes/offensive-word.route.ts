@@ -17,6 +17,15 @@ import { hasRole } from '../middlewares/roles.middleware';
 
 const router = express.Router();
 
+/**
+ * @openapi
+ * /offensive-word:
+ *   get:
+ *     description: Get all offensive words
+ *     responses:
+ *       200:
+ *         description: Returns all offensive words.
+ */
 router.post('/api/offensive-word',
 	body('word').isString().notEmpty().trim().escape(),
 	body('level').isNumeric().notEmpty(),
