@@ -18,7 +18,7 @@ jest.mock('./../../../infrastructure/repositories/user.repository.pg', () => {
 						id: IdVO.createWithUUID('f2dd593e-af8e-4754-bed3-b42d2cfce636'),
 						email: EmailVO.create('hi@mymail.com'),
 						password: PasswordVO.create('$2b$10$Evl2ukNLSMrqpUB4vjZNCOEkAG3LAdXzOwWhHKtw.KRvW5Grn0NlW'),
-						role: RoleVO.create(Role.USER)
+						role: RoleVO.create(Role.PUBLISHER)
 					});
 				})
 			};

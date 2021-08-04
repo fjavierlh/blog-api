@@ -33,7 +33,7 @@ export class UpdateUserUseCase {
 			id: user.id,
 			email: EmailVO.create(updatedEmail ?? user.email.value),
 			password: PasswordVO.create(newPaswordHashed ?? user.password.value),
-			role: RoleVO.create(Role.USER)
+			role: RoleVO.create(Role.PUBLISHER)
 		};
 
 		await this.userService.updateByEmail(emailToVO, new User(updatedUserType));

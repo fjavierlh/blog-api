@@ -8,13 +8,13 @@ describe('User test suite', () => {
 		const validUUID = '3b37664b-7292-48ba-a986-55480402d683';
 		const validEmail = 'hi@mymail.com';
 		const validPassword = '@Bcd3fgh1#';
-		const validRole = 'USER';
+		const validRole = 'PUBLISHER';
 
 		const userData: UserType = {
 			id: IdVO.createWithUUID(validUUID),
 			email: EmailVO.create(validEmail),
 			password: PasswordVO.create(validPassword),
-			role: RoleVO.create(Role.USER)
+			role: RoleVO.create(Role.PUBLISHER)
 		};
 
 		const expectedUserEntity = new User(userData);
