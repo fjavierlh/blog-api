@@ -24,7 +24,7 @@ describe('Comment entity test suite', () => {
 		expect(commentToTest.id.value).toBe(validUUID);
 		expect(commentToTest.nickname.value).toBe(validNickname);
 		expect(commentToTest.content.value).toBe(validContent);
-		expect(commentToTest.date.value).toBe(validDate.getTime());
+		expect(commentToTest.date.value).toBe(validDate.getTime().toString());
 	});
 
 	it('should throw an error if create a comment post with invalid arguments', () => {
