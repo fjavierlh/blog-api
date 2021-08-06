@@ -15,7 +15,7 @@ export class FindOffensiveWordById{
 		const id = IdVO.createWithUUID(idOffensiveWord);
 		const searchedOffensiveWord: OffensiveWord|null = await this.offensiveWordService.showById(id);
 		
-		if (searchedOffensiveWord === null) return searchedOffensiveWord;
+		if (!searchedOffensiveWord) return null;
 		
 		const searchedOffensiveWordToResponse: OffensiveWordResponse = {
 			id: id.value,
