@@ -23,6 +23,7 @@ export class SignInUserUseCase {
 		
 		if(isValid) {
 			return jwt.sign({
+				id: user.id.value,
 				email: user.email.value,
 			},
 			process.env.AUTH_TOKEN_SECRET ?? 'my-secret',
