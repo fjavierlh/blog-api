@@ -4,9 +4,9 @@ import { IdVO } from '../vos/id.vo';
 
 export interface PostRepository {
 
-    getAllPost(): Promise<Post[]>;
+    getAllPosts(): Promise<Post[]>;
 
-    getPostByID(postId: IdVO): Promise<Post>;
+    getPostByID(postId: IdVO): Promise<Post|null>;
     
     persistPost(post: Post): Promise<void>;
 
@@ -14,7 +14,7 @@ export interface PostRepository {
 
     deletePostById(postId: IdVO): Promise<void>;
 
-    addCommentToPost(postId: IdVO, comment: CommentPost): Promise<void>;
+    saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void>;
 
     updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void>;
 
