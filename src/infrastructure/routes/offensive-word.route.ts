@@ -12,6 +12,7 @@ import { OffensiveWordResponse } from '../../application/use-cases/offensive-wor
 import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/offensive-word/update-offensive-word-by-id.use-case';
 import { ExceptionWithCode } from '../../domain/exception-with-code';
 import { Role } from '../../domain/vos/auth-user/role.vo';
+import { isOwner } from '../middlewares/is-owner.middleware';
 import { hasRole } from '../middlewares/roles.middleware';
 
 
@@ -55,6 +56,7 @@ router.post('/api/offensive-word',
 router.delete('/api/offensive-word/:id',
 	param('id').notEmpty().isUUID(),
 	passport.authenticate('jwt', { session: false }),
+	hasRole([Role.ADMIN]),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -76,7 +78,8 @@ router.delete('/api/offensive-word/:id',
 
 router.get('/api/offensive-word',
 	passport.authenticate('jwt', { session: false }),
-	hasRole([Role.USER]),
+	//hasRole([Role.ADMIN]),
+	isOwner(),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -94,6 +97,7 @@ router.get('/api/offensive-word',
 router.get('/api/offensive-word/:id',
 	param('id').notEmpty().isUUID(),
 	passport.authenticate('jwt', { session: false }),
+	hasRole([Role.ADMIN]),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -116,6 +120,7 @@ router.get('/api/offensive-word/:id',
 router.put('/api/offensive-word/:id',
 	param('id').notEmpty().isUUID(),
 	passport.authenticate('jwt', { session: false }),
+	hasRole([Role.ADMIN]),
 	async (req: Request, res: Response) => {
 
 		try {
