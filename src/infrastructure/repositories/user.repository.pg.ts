@@ -64,4 +64,8 @@ export class UserRepositoryPostgres implements UserRepository {
 		return new User(userData);
 	}
 
+	async deleteAll(): Promise<void> {
+		await UserModel.destroy({ where: {}, truncate: true });
+	}
+
 }

@@ -11,4 +11,6 @@ export interface UserRepository {
 
     deleteUser(email: EmailVO): Promise<void|null>;
 
+    deleteAll(): Promise<void>;
+
 }
