@@ -105,4 +105,8 @@ export class OffensiveWordRepositoryMongo implements OffensiveWordRepository {
 		return new OffensiveWord(updatedOffensiveWordData);
 	}
 
+	async deleteAll(): Promise<void> {
+		await OffensiveWordModel.deleteMany();
+	}
+
 }

@@ -13,4 +13,6 @@ export interface OffensiveWordRepository {
 
     update(idOffensiveWord: IdVO, offensiveWord: OffensiveWord): Promise<OffensiveWord>;
 
+    deleteAll(): Promise<void>;
+
 }
