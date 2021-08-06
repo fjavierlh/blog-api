@@ -8,7 +8,7 @@ describe('CommentNickname test suite', () => {
 		expect(commentNickname.value).toBe(validNickname);
 
 	});
-	it(`should throw error if comment nickname length is lower than ${CommentNicknameVO.MIN_LEGTH}`, () => {
+	it(`should throw error if comment nickname length is lower than ${CommentNicknameVO.MIN_LENGTH}`, () => {
 		const invalidNickname = 'my';
 		expect(() => CommentNicknameVO.create(invalidNickname)).toThrow()    ;
 	});
