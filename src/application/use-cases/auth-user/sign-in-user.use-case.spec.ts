@@ -59,8 +59,6 @@ describe('SignInUserUseCase test suite', () => {
 		};
 
 		const returnedToken = await useCase.execute(userTest);
-		console.log(returnedToken);
-		// expect(repository.getUserByEmail).toBeCalled();
 		expect(returnedToken).toBeNull();
 	});
 
