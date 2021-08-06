@@ -1,9 +1,9 @@
 import { AuthorNameVO } from '../vos/author/author-name.vo';
 import { AuthorNicknameVO } from '../vos/author/author-nickname.vo';
 import { IdVO } from '../vos/id.vo';
+import { CommentsListVO } from '../vos/posts/comments-list.vo';
 import { PostContentVO } from '../vos/posts/post-content.vo';
 import { PostTitleVO } from '../vos/posts/post-title.vo';
-import { CommentPost } from './comment-post.entity';
 
 export type PostType = {
     id: IdVO,
@@ -11,7 +11,7 @@ export type PostType = {
     nickname: AuthorNicknameVO,
     title: PostTitleVO,
     content: PostContentVO,
-    comments: CommentPost[]
+    comments: CommentsListVO
 }
 
 export class Post {
@@ -38,7 +38,7 @@ export class Post {
 		return this.post.content;
 	}
 
-	get comments():CommentPost[] {
+	get comments(): CommentsListVO {
 		return this.post.comments;
 	} 
 
