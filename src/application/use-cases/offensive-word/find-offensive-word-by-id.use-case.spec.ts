@@ -13,7 +13,11 @@ jest.mock('./../../../infrastructure/repositories/offensive-word.repository.mong
 		OffensiveWordRepositoryMongo: jest.fn().mockImplementation(() => {
 			return {
 				findById: jest.fn().mockImplementation(() => 
-					new OffensiveWord({ id: IdVO.createWithUUID('f2dd593e-af8e-4754-bed3-b42d2cfce636'), word: WordVO.create('Test1'), level: LevelVO.create(1)})
+					new OffensiveWord({ 
+						id: IdVO.createWithUUID('f2dd593e-af8e-4754-bed3-b42d2cfce636'),
+						word: WordVO.create('Test1'),
+						level: LevelVO.create(1)
+					})
 				)
 			};
 		})
@@ -28,7 +32,7 @@ describe('FindOffensiveWordById Test Suite', () => {
 		const testId: IdRequest = 'f2dd593e-af8e-4754-bed3-b42d2cfce636';
         
 		const offensiveWord = await useCase.execute(testId);
-		
+		console.log(offensiveWord);
 		if(offensiveWord !== null) {
 			expect(offensiveWord.id).toEqual(testId);
 			expect(offensiveWord.word).toEqual('Test1');
