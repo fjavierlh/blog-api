@@ -1,6 +1,7 @@
 import { AuthorNameVO } from '../vos/author/author-name.vo';
 import { AuthorNicknameVO } from '../vos/author/author-nickname.vo';
 import { IdVO } from '../vos/id.vo';
+import { CommentsListVO } from '../vos/posts/comments-list.vo';
 import { PostContentVO } from '../vos/posts/post-content.vo';
 import { PostTitleVO } from '../vos/posts/post-title.vo';
 import { CommentPost } from './comment-post.entity';
@@ -23,7 +24,7 @@ describe('Post entity test suite', () => {
 			nickname: AuthorNicknameVO.create(validNickname),
 			title: PostTitleVO.create(validTitle),
 			content: PostContentVO.create(validContent),
-			comments:validCommentsList
+			comments:CommentsListVO.create(validCommentsList)
 		};
 
 		const postTest = new Post(postType);
@@ -33,7 +34,7 @@ describe('Post entity test suite', () => {
 		expect(postTest.nickname.value).toBe(validNickname);
 		expect(postTest.title.value).toBe(validTitle);
 		expect(postTest.content.value).toBe(validContent);
-		expect(postTest.comments.length).toBe(0);
+		expect(postTest.comments.value.length).toBe(0);
 
 	});
 
@@ -53,7 +54,7 @@ describe('Post entity test suite', () => {
 				nickname: AuthorNicknameVO.create(validNickname),
 				title: PostTitleVO.create(validTitle),
 				content: PostContentVO.create(validContent),
-				comments: validCommentsList
+				comments: CommentsListVO.create(validCommentsList)
 			});
 		}).toThrow();
 	});
