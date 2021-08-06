@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import Container from 'typedi';
 import { User } from '../../domain/entities/user.entity';
 import { Role } from '../../domain/vos/auth-user/role.vo';
 
