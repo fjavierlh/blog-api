@@ -1,6 +1,7 @@
 
 import { config } from 'dotenv';
 config();
+
 import 'reflect-metadata';
 import Container from 'typedi';
 import express, { Application } from 'express';
@@ -14,24 +15,37 @@ import { authRouter } from './infrastructure/routes/auth.route';
 import { UserRepositoryPostgres } from './infrastructure/repositories/user.repository.pg';
 import { AuthorRepositoryMongo } from './infrastructure/repositories/author.repository.mongo';
 import passportMiddelware from './infrastructure/middlewares/pasport';
-import { connectToDB as connectToOffensiveWordsDB } from './infrastructure/config/mongo';
-import { connectToUsersdDB } from './infrastructure/config/postgres';
-import { populateDatabase as populateUsersDatabase } from './infrastructure/config/populate';
 import expressPinoLogger from 'express-pino-logger';
 import { logger } from './infrastructure/config/logger';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsdoc, { Options } from 'swagger-jsdoc';
+import { PostRepositoryMongo } from './infrastructure/repositories/post.repository.mongo';
 
 Container.set('OffensiveWordRepository', new OffensiveWordRepositoryMongo());
 Container.set('UserRepository', new UserRepositoryPostgres());
 Container.set('AuthorRepository', new AuthorRepositoryMongo());
+Container.set('PostRepository', new PostRepositoryMongo());
 
+// Some test cases
+/*
+const createPostUseCase = Container.get(CreatePostUseCase);
+createPostUseCase.execute({
+	author: 'Anónimo',
+	nickname: 'anonymus',
+	title: 'An anonymus post',
+	content: 'loremimpsum'.repeat(6)
+});
+*/
+/*
+const findAllPostsUseCase = Container.get(FindAllPostsUseCase);
+(async () => findAllPostsUseCase.execute())().then((allPosts) => console.log('allPosts=', allPosts));
+*/
+/*
+const findPostByIdUseCase = Container.get(FindPostByIdUseCase);
 (async () => {
-	await connectToOffensiveWordsDB();
-	await connectToUsersdDB();
-	await populateUsersDatabase();
+	return findPostByIdUseCase.execute('67bad332-3d29-46f2-932e-cf38e1b6e6ef');
 })();
-
+*/
 console.log('App running');
 
 const app: Application = express();
