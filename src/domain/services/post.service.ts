@@ -29,18 +29,22 @@ export class PostService {
 	}
 
 	async removePostById(idPost: IdVO): Promise<void> {
+		this.checkIfPostExist(idPost);
 		await this.postRepository.deletePostById(idPost);
 	}
 
 	async commentPost(idPost: IdVO, comment: CommentPost): Promise<void> {
+		this.checkIfPostExist(idPost);
 		await this.postRepository.saveCommentInPost(idPost, comment);
 	}
 
 	async updateCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void> {
+		this.checkIfPostExist(idPost);
 		await this.postRepository.saveCommentInPost(idPost, updatedComment);
 	}
 
 	async removeCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void> {
+		this.checkIfPostExist(idPost);
 		await this.postRepository.saveCommentInPost(idPost, updatedComment);
 	}
 
