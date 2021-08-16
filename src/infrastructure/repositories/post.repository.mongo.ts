@@ -61,7 +61,7 @@ export class PostRepositoryMongo implements PostRepository {
 
 	}
 	async updatePost(postId: IdVO, updatedPost: Post): Promise<Post> {
-		
+
 		const updatedPostToType = {
 			author: updatedPost.author,
 			nickname: updatedPost.nickname,
@@ -87,8 +87,8 @@ export class PostRepositoryMongo implements PostRepository {
 
 	}
 
-	deletePostById(postId: IdVO): Promise<void> {
-		throw new Error('Method not implemented.');
+	async deletePostById(postId: IdVO): Promise<void> {
+		await PostModel.deleteOne({id: postId.value}).exec();
 	}
 
 	saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void> {
