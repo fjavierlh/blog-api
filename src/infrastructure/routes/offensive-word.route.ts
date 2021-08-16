@@ -77,8 +77,7 @@ router.delete('/api/offensive-word/:id',
 
 router.get('/api/offensive-word',
 	passport.authenticate('jwt', { session: false }),
-	//hasRole([Role.ADMIN]),
-	//isOwner(),
+	hasRole([Role.ADMIN]),
 	async (req: Request, res: Response) => {
 
 		try {
