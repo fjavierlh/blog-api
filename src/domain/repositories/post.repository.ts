@@ -10,7 +10,7 @@ export interface PostRepository {
     
     persistPost(post: Post): Promise<void>;
 
-    updatePost(postId: IdVO, updatedPost: Post): Promise<void>;
+    updatePost(postId: IdVO, updatedPost: Post): Promise<Post>;
 
     deletePostById(postId: IdVO): Promise<void>;
 
