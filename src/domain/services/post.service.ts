@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { CommentPost } from '../entities/comment-post.entity';
 import { Post } from '../entities/post.entity';
+import { ExceptionWithCode } from '../exception-with-code';
 import { PostRepository } from '../repositories/post.repository';
 import { IdVO } from '../vos/id.vo';
 
@@ -22,8 +23,9 @@ export class PostService {
 		await this.postRepository.persistPost(post);
 	}
 
-	async updatePostById(idPost: IdVO, post: Post): Promise<void> {
-		await this.postRepository.updatePost(idPost, post);
+	async updatePostById(idPost: IdVO, post: Post): Promise<Post> {
+		this.checkIfPostExist(idPost);
+		return this.postRepository.updatePost(idPost, post);
 	}
 
 	async removePostById(idPost: IdVO): Promise<void> {
@@ -40,6 +42,11 @@ export class PostService {
 
 	async removeCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void> {
 		await this.postRepository.saveCommentInPost(idPost, updatedComment);
+	}
+
+	private async checkIfPostExist(idPost: IdVO) {
+		const expectedPost = this.findPostById(idPost);
+		if(!expectedPost) throw new ExceptionWithCode(404, `Post with id ${idPost.value} not found`);
 	}
 
 }
