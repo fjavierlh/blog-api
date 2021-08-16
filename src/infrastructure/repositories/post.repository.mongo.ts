@@ -29,7 +29,7 @@ export class PostRepositoryMongo implements PostRepository {
 	}
 
 	async getPostByID(postId: IdVO): Promise<Post | null> {
-		const searchedPost: AnyObject = await PostModel.findOne({ id: postId.value }).exec();
+		const searchedPost: AnyObject = await this.getPostModel(postId);
 		if (!searchedPost) return null;
 
 		const postType: PostType = {
@@ -91,15 +91,22 @@ export class PostRepositoryMongo implements PostRepository {
 		await PostModel.deleteOne({id: postId.value}).exec();
 	}
 
-	saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void> {
-		throw new Error('Method not implemented.');
+	async saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void> {
+		const searchedPost: AnyObject = await this.getPostModel(postId);
+		await searchedPost.comments.push(comment);
+		await searchedPost.save();
 	}
 
 	updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void> {
 		throw new Error('Method not implemented.');
 	}
+
 	deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void> {
 		throw new Error('Method not implemented.');
+	}
+
+	private async getPostModel(postId: IdVO): Promise<AnyObject> {
+		return PostModel.findOne({ id: postId.value }).exec();
 	}
 
 }
