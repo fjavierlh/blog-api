@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Post } from '../../../domain/entities/post.entity';
 import { PostService } from './../../../domain/services/post.service';
-import { AllPostResponse } from './all-post.response';
+import { AllPostResponse } from './types/all-post.response';
 
 @Service()
 export class FindAllPostsUseCase {

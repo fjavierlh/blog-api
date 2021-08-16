@@ -4,9 +4,9 @@ import { OffensiveWordService } from '../../../domain/services/offensive-word.se
 import { IdVO } from '../../../domain/vos/id.vo';
 import { LevelVO } from '../../../domain/vos/offensive-word/level.vo';
 import { WordVO } from '../../../domain/vos/offensive-word/word.vo';
-import { IdRequest } from '../id.request';
-import { OffensiveWordRequest } from './offensive-word.request';
-import { OffensiveWordResponse } from './offensive-word.response';
+import { IdRequest } from '../types/id.request';
+import { OffensiveWordRequest } from './types/offensive-word.request';
+import { OffensiveWordResponse } from './types/offensive-word.response';
 
 @Service()
 export class UpdateOffensiveWordByIdUseCase {

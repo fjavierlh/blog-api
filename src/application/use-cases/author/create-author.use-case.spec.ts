@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import Container from 'typedi';
 import { AuthorRepositoryMongo } from '../../../infrastructure/repositories/author.repository.mongo';
-import { AuthorRequest } from './author.request';
+import { AuthorRequest } from './types/author.request';
 import { CreateAuthorUseCase } from './create-author.use-case';
 
 jest.mock('./../../../infrastructure/repositories/author.repository.mongo');

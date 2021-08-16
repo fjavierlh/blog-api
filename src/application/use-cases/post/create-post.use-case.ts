@@ -7,7 +7,7 @@ import { IdVO } from '../../../domain/vos/id.vo';
 import { CommentsListVO } from '../../../domain/vos/posts/comments-list.vo';
 import { PostContentVO } from '../../../domain/vos/posts/post-content.vo';
 import { PostTitleVO } from '../../../domain/vos/posts/post-title.vo';
-import { PostRequest } from './post.request';
+import { PostRequest } from './types/post.request';
 
 @Service()
 export class CreatePostUseCase {

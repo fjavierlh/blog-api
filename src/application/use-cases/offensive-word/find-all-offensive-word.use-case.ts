@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { OffensiveWord } from '../../../domain/entities/offensive-word.entity';
 import { OffensiveWordService } from '../../../domain/services/offensive-word.service';
-import { OffensiveWordResponse } from '../offensive-word/offensive-word.response';
+import { OffensiveWordResponse } from '../offensive-word/types/offensive-word.response';
 
 @Service()
 export class FindAllOffensiveWordsUseCase {

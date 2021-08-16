@@ -21,7 +21,7 @@ import { WordVO } from '../../../domain/vos/offensive-word/word.vo';
 
 import { OffensiveWordRepositoryMongo } from '../../../infrastructure/repositories/offensive-word.repository.mongo';
 import { DeleteOffensiveUseCase } from './delete-offensive-word.use-case';
-import { IdRequest } from '../id.request';
+import { IdRequest } from '../types/id.request';
 
 describe('DeleteOffensiveUseCase Test Suite', () => {
 	it('should delete an offensive word', async () => {

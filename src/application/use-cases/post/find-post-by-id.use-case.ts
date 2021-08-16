@@ -2,9 +2,9 @@ import { Service } from 'typedi';
 import { CommentPost } from '../../../domain/entities/comment-post.entity';
 import { Post } from '../../../domain/entities/post.entity';
 import { IdVO } from '../../../domain/vos/id.vo';
-import { IdRequest } from '../id.request';
+import { IdRequest } from '../types/id.request';
 import { PostService } from './../../../domain/services/post.service';
-import { SinglePostResponse } from './single-post.response';
+import { SinglePostResponse } from './types/single-post.response';
 
 @Service()
 export class FindPostByIdUseCase {

@@ -4,8 +4,8 @@ import { AuthorService } from '../../../domain/services/author.service';
 import { AuthorNameVO } from '../../../domain/vos/author/author-name.vo';
 import { AuthorNicknameVO } from '../../../domain/vos/author/author-nickname.vo';
 import { IdVO } from '../../../domain/vos/id.vo';
-import { IdRequest } from '../id.request';
-import { AuthorRequest } from './author.request';
+import { IdRequest } from '../types/id.request';
+import { AuthorRequest } from './types/author.request';
 
 @Service()
 export class CreateAuthorUseCase {

@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { OffensiveWordService } from '../../../domain/services/offensive-word.service';
 import { IdVO } from '../../../domain/vos/id.vo';
-import { IdRequest } from '../id.request';
+import { IdRequest } from '../types/id.request';
 
 @Service()
 export class DeleteOffensiveUseCase {

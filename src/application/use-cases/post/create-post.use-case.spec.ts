@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import Container from 'typedi';
 import { PostRepositoryMongo } from './../../../infrastructure/repositories/post.repository.mongo';
 import { CreatePostUseCase } from './create-post.use-case';
-import { PostRequest } from './post.request';
+import { PostRequest } from './types/post.request';
 describe('CreatePostUseCase test suite', () => {
 
 	it('should create a post', async () => {

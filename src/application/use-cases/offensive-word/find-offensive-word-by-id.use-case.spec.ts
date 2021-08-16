@@ -5,7 +5,7 @@ import { IdVO } from '../../../domain/vos/id.vo';
 import { LevelVO } from '../../../domain/vos/offensive-word/level.vo';
 import { WordVO } from '../../../domain/vos/offensive-word/word.vo';
 import { OffensiveWordRepositoryMongo } from '../../../infrastructure/repositories/offensive-word.repository.mongo';
-import { IdRequest } from '../id.request';
+import { IdRequest } from '../types/id.request';
 import { FindOffensiveWordById } from './find-offensive-word-by-id.use-case';
 
 jest.mock('./../../../infrastructure/repositories/offensive-word.repository.mongo', () => {

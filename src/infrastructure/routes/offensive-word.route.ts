@@ -8,7 +8,6 @@ import { CreateOffensiveWordUseCase } from '../../application/use-cases/offensiv
 import { DeleteOffensiveUseCase } from '../../application/use-cases/offensive-word/delete-offensive-word.use-case';
 import { FindAllOffensiveWordsUseCase } from '../../application/use-cases/offensive-word/find-all-offensive-word.use-case';
 import { FindOffensiveWordById } from '../../application/use-cases/offensive-word/find-offensive-word-by-id.use-case';
-import { OffensiveWordResponse } from '../../application/use-cases/offensive-word/offensive-word.response';
 import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/offensive-word/update-offensive-word-by-id.use-case';
 import { ExceptionWithCode } from '../../domain/exception-with-code';
 import { Role } from '../../domain/vos/auth-user/role.vo';
@@ -79,7 +78,7 @@ router.delete('/api/offensive-word/:id',
 router.get('/api/offensive-word',
 	passport.authenticate('jwt', { session: false }),
 	//hasRole([Role.ADMIN]),
-	isOwner(),
+	//isOwner(),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -106,7 +105,7 @@ router.get('/api/offensive-word/:id',
 			
 			const { id } = req.params;
 			const useCase = Container.get(FindOffensiveWordById);
-			const result: OffensiveWordResponse | null = await useCase.execute(id);
+			const result = await useCase.execute(id);
 			if (!result) throw new ExceptionWithCode(404, `Offensive word with ID '${id}' not found`);
 			
 			return res.status(200).json(result);

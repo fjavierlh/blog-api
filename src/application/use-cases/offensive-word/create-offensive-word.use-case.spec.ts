@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import Container from 'typedi';
 
 import {CreateOffensiveWordUseCase} from './create-offensive-word.use-case';
-import { OffensiveWordRequest} from './offensive-word.request';
+import { OffensiveWordRequest} from './types/offensive-word.request';
 import { OffensiveWordRepositoryMongo } from '../../../infrastructure/repositories/offensive-word.repository.mongo';
 
 describe('CreateOffensiveWordUseCase', () => {
