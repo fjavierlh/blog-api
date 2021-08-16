@@ -11,7 +11,7 @@ import { PostTitleVO } from '../../domain/vos/posts/post-title.vo';
 import { PostModel } from './post.schema';
 
 export class PostRepositoryMongo implements PostRepository {
-	
+
 	async getAllPosts(): Promise<Post[]> {
 		const allPostsData = await PostModel.find().exec();
 		return allPostsData.map((post: AnyObject) => {
@@ -29,8 +29,8 @@ export class PostRepositoryMongo implements PostRepository {
 	}
 
 	async getPostByID(postId: IdVO): Promise<Post | null> {
-		const searchedPost: AnyObject = await PostModel.findOne({id: postId.value}).exec();
-		if(!searchedPost) return null;
+		const searchedPost: AnyObject = await PostModel.findOne({ id: postId.value }).exec();
+		if (!searchedPost) return null;
 
 		const postType: PostType = {
 			id: IdVO.createWithUUID(searchedPost.id),
@@ -45,7 +45,7 @@ export class PostRepositoryMongo implements PostRepository {
 	}
 
 	async persistPost(post: Post): Promise<void> {
-		
+
 		const newPost = {
 			id: post.id.value,
 			author: post.author.value,
@@ -60,8 +60,31 @@ export class PostRepositoryMongo implements PostRepository {
 		await postModel.save();
 
 	}
-	updatePost(postId: IdVO, updatedPost: Post): Promise<void> {
-		throw new Error('Method not implemented.');
+	async updatePost(postId: IdVO, updatedPost: Post): Promise<Post> {
+		
+		const updatedPostToType = {
+			author: updatedPost.author,
+			nickname: updatedPost.nickname,
+			title: updatedPost.title,
+			content: updatedPost.content,
+			comments: updatedPost.comments
+		};
+
+		console.log('updatedPostToType', updatedPostToType);
+		const returnedPost: AnyObject = await PostModel.findOneAndUpdate({ id: postId.value }, updatedPostToType);
+		console.log('returnedPost:', returnedPost);
+
+		const returnedPostToType: PostType = {
+			id: returnedPost.id,
+			author: returnedPost.author,
+			nickname: returnedPost.nickname,
+			title: returnedPost.title,
+			content: returnedPost.content,
+			comments: returnedPost.comments
+		};
+
+		return new Post(returnedPostToType);
+
 	}
 
 	deletePostById(postId: IdVO): Promise<void> {
