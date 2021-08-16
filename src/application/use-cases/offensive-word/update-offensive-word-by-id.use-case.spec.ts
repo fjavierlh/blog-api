@@ -15,7 +15,7 @@ jest.mock('./../../../infrastructure/repositories/offensive-word.repository.mong
 					new OffensiveWord({ id: IdVO.createWithUUID('f2dd593e-af8e-4754-bed3-b42d2cfce636'), word: WordVO.create('Tested'), level: LevelVO.create(1) })
 				),
 				findById: jest.fn().mockImplementation(() => 
-					new OffensiveWord({ id: IdVO.createWithUUID('f2dd593e-af8e-4754-bed3-b42d2cfce636'), word: WordVO.create('Tested'), level: LevelVO.create(1) })
+					new OffensiveWord({ id: IdVO.createWithUUID('f2dd593e-af8e-4754-bed3-b42d2cfce636'), word: WordVO.create('Test'), level: LevelVO.create(1) })
 				)
 			};
 		})
