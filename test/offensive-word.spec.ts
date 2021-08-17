@@ -43,7 +43,7 @@ describe('Offensive word', () => {
 	});
 
 	it('should create an offensive word', async () => {
-        
+		jest.setTimeout(5000);
 		const newOW = {
 			'word': 'metienesfrito',
 			'level': 1
