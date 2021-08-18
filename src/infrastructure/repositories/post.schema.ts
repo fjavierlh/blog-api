@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { CommentListSchema } from './comment-list.schema';
+import { CommentPostSchema } from './comment-post.schema';
 
 const PostSchema = new mongoose.Schema({
 	id: {
@@ -23,7 +24,7 @@ const PostSchema = new mongoose.Schema({
 		required: true
 	},
 	comments: {
-		type: CommentListSchema,
+		type: [CommentPostSchema],
 		required: true
 	},
 
