@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { CommentPost } from '../../../domain/entities/comment-post.entity';
+import { CommentPost, CommentPostType } from '../../../domain/entities/comment-post.entity';
 import { PostService } from '../../../domain/services/post.service';
 import { CommentContentVO } from '../../../domain/vos/comments/comment-content.vo';
 import { CommentDateVO } from '../../../domain/vos/comments/comment-date.vo';
@@ -15,11 +15,11 @@ export class AddCommentToPostUseCase {
 
 	async execute(postID: IdRequest, comment: CommentPostRequest): Promise<void> {
         
-		const commentToType = {
+		const commentToType: CommentPostType = {
 			id: IdVO.create(),
 			nickname: CommentNicknameVO.create(comment.nickname),
 			content: CommentContentVO.create(comment.content),
-			date: CommentDateVO.create(new Date())
+			date: CommentDateVO.create()
 		};
 
 		await this.postService.commentPost(IdVO.createWithUUID(postID), new CommentPost(commentToType));

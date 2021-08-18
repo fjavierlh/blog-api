@@ -31,7 +31,7 @@ jest.mock('./../../../infrastructure/repositories/post.repository.mongo', () => 
 								id: IdVO.create(),
 								nickname: CommentNicknameVO.create('paquito85'),
 								content: CommentContentVO.create('Un comentario cualquiera'),
-								date: CommentDateVO.create(new Date())
+								date: CommentDateVO.create()
 							})
 						])
 					})

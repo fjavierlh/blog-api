@@ -33,7 +33,7 @@ jest.mock('./../../../infrastructure/repositories/post.repository.mongo', () => 
 								id: IdVO.create(),
 								nickname: CommentNicknameVO.create('paquito85'),
 								content: CommentContentVO.create('Un comentario cualquiera'),
-								date: CommentDateVO.create(new Date())
+								date: CommentDateVO.create()
 							})
 						])
 					})
@@ -54,7 +54,6 @@ describe('AddCommentToPostUseCase', () => {
 		const comment: CommentPostRequest = {
 			nickname: 'validNick',
 			content: 'This is a valid comment',
-			date: CommentDateVO.create(new Date()).value
 		};
 		await useCase.execute(validId, comment);
 		expect(repository.saveCommentInPost).toHaveBeenCalled();

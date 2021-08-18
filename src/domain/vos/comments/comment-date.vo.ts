@@ -1,13 +1,13 @@
 export class CommentDateVO {
 
-	private constructor(private commentDate: Date) { }
+	private constructor(private commentDate: Date) {}
 
 	get value(): string {
 		return this.commentDate.getTime().toString();
 	}
 
-	static create(commentDate: Date): CommentDateVO {
-		return new CommentDateVO(commentDate);
+	static create(): CommentDateVO {
+		return new CommentDateVO(new Date());
 	}
 
 	static createWithDate(date: string): CommentDateVO {
