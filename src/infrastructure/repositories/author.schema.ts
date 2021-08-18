@@ -11,7 +11,8 @@ const AuthorSchema = new mongoose.Schema({
 	},
 	nickname: {
 		type: String,
-		required: true
+		required: true,
+		unique: true
 	}
 });
 
