@@ -81,12 +81,17 @@ export class PostRepositoryMongo implements PostRepository {
 			}
 		};
 
-		const {nModified: updateResult}: AnyObject = await PostModel.updateOne(query, updatedDocument);
+		const { nModified: updateResult }: AnyObject = await PostModel.updateOne(query, updatedDocument);
 		if (!updateResult) return null;
 	}
 
 	async deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void> {
-		await PostModel.remove({ id: postId.value, 'comments.id': commentId.value });
+		await PostModel.updateOne(
+			{ id: postId.value },
+			{ $pull: {
+				comments: { id: commentId.value }
+			}}
+		);
 	}
 
 	// Class utils
