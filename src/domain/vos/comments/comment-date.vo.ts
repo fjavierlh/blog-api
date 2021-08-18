@@ -10,4 +10,8 @@ export class CommentDateVO {
 		return new CommentDateVO(commentDate);
 	}
 
+	static createWithDate(date: string): CommentDateVO {
+		return new CommentDateVO(new Date(+date));
+	}
+
 }
