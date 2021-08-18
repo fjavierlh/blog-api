@@ -23,7 +23,7 @@ export class PostService {
 		await this.postRepository.persistPost(post);
 	}
 
-	async updatePostById(idPost: IdVO, post: Post): Promise<Post> {
+	async updatePostById(idPost: IdVO, post: Post): Promise<Post|null> {
 		this.checkIfPostExist(idPost);
 		return this.postRepository.updatePost(idPost, post);
 	}
@@ -38,14 +38,14 @@ export class PostService {
 		await this.postRepository.saveCommentInPost(idPost, comment);
 	}
 
-	async updateCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void> {
+	async updateCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void|null> {
 		this.checkIfPostExist(idPost);
-		await this.postRepository.saveCommentInPost(idPost, updatedComment);
+		return this.postRepository.updateCommentInPost(idPost, updatedComment);
 	}
 
-	async removeCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void> {
+	async removeCommentPost(idPost: IdVO, idComment: IdVO): Promise<void> {
 		this.checkIfPostExist(idPost);
-		await this.postRepository.saveCommentInPost(idPost, updatedComment);
+		await this.postRepository.deleteCommentInPost(idPost, idComment);
 	}
 
 	private async checkIfPostExist(idPost: IdVO) {
