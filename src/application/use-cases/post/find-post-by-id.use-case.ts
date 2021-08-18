@@ -11,26 +11,24 @@ export class FindPostByIdUseCase {
 
 	constructor(private postService: PostService) { }
 
-	async execute(idPost: IdRequest): Promise<SinglePostResponse|null> {
-
-		const expectedPost: Post|null = await this.postService.findPostById(IdVO.createWithUUID(idPost));
-		
-		if(!expectedPost) return null;
-
+	async execute(idPost: IdRequest): Promise<SinglePostResponse | null> {
+		const expectedPost: Post | null = await this.postService.findPostById(IdVO.createWithUUID(idPost));
+		if (!expectedPost)
+			return null;
 		return {
 			id: expectedPost.id.value,
 			author: expectedPost.author.value,
 			nickname: expectedPost.nickname.value,
 			title: expectedPost.title.value,
 			content: expectedPost.content.value,
-			comments: expectedPost.comments.value.map((comment: CommentPost) => {
+			comments: expectedPost.comments.value.map((c: CommentPost) => {
 				return {
-					id: comment.id.value,
-					nickname: comment.nickname.value,
-					content: comment.content.value,
-					date: comment.date.value
+					id : c.id.value,
+					nickname: c.nickname.value,
+					content: c.content.value,
+					date: c.date.value
 				};
 			})
 		};
-	}	
+	}
 }
