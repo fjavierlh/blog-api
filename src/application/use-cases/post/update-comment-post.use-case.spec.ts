@@ -1,16 +1,5 @@
 import 'reflect-metadata';
 import Container from 'typedi';
-import { CommentPost } from '../../../domain/entities/comment-post.entity';
-import { Post } from '../../../domain/entities/post.entity';
-import { AuthorNameVO } from '../../../domain/vos/author/author-name.vo';
-import { AuthorNicknameVO } from '../../../domain/vos/author/author-nickname.vo';
-import { CommentContentVO } from '../../../domain/vos/comments/comment-content.vo';
-import { CommentDateVO } from '../../../domain/vos/comments/comment-date.vo';
-import { CommentNicknameVO } from '../../../domain/vos/comments/comment-nickname.vo';
-import { IdVO } from '../../../domain/vos/id.vo';
-import { CommentsListVO } from '../../../domain/vos/posts/comments-list.vo';
-import { PostContentVO } from '../../../domain/vos/posts/post-content.vo';
-import { PostTitleVO } from '../../../domain/vos/posts/post-title.vo';
 import { PostRepositoryMongo } from '../../../infrastructure/repositories/post.repository.mongo';
 import { CommentPostRequest } from './types/comment-post.request';
 import { UpdateCommentPostUseCase } from './update-comment-post.use-case';
