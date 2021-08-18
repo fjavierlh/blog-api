@@ -10,13 +10,13 @@ export interface PostRepository {
     
     persistPost(post: Post): Promise<void>;
 
-    updatePost(postId: IdVO, updatedPost: Post): Promise<Post>;
+    updatePost(postId: IdVO, updatedPost: Post): Promise<Post|null>;
 
     deletePostById(postId: IdVO): Promise<void>;
 
-    saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void>;
+    saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void|null>;
 
-    updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void>;
+    updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void|null>;
 
     deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void>;
 
