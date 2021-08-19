@@ -7,7 +7,7 @@ export class CommentsListVO {
 	}
 
 	static get MAX_LEGTH(): number {
-		return 10;
+		return 100;
 	}
 
 	private constructor(private comments: CommentPost[]) { }
