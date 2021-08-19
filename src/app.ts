@@ -27,6 +27,7 @@ import { FindPostByIdUseCase } from './application/use-cases/post/find-post-by-i
 import { CommentDateVO } from './domain/vos/comments/comment-date.vo';
 import { UpdateCommentPostUseCase } from './application/use-cases/post/update-comment-post.use-case';
 import { RemoveCommentPostUseCase } from './application/use-cases/post/remove-comment.use-case';
+import { postsRouter } from './infrastructure/routes/post.route';
 
 Container.set('OffensiveWordRepository', new OffensiveWordRepositoryMongo());
 Container.set('UserRepository', new UserRepositoryPostgres());
@@ -88,6 +89,7 @@ app.use(json());
 app.use(expressPinoLogger(logger));
 app.use(offensiveWordRouter);
 app.use(authRouter);
+app.use(postsRouter);
 app.use(passport.initialize());
 passport.use(passportMiddelware);
 
