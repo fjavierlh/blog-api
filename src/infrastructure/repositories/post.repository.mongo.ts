@@ -1,5 +1,5 @@
 import { AnyObject } from 'mongoose';
-import { CommentPost, CommentPostType } from '../../domain/entities/comment-post.entity';
+import { CommentPost } from '../../domain/entities/comment-post.entity';
 import { Post, PostType } from '../../domain/entities/post.entity';
 import { PostRepository } from '../../domain/repositories/post.repository';
 import { AuthorNameVO } from '../../domain/vos/author/author-name.vo';
@@ -82,16 +82,18 @@ export class PostRepositoryMongo implements PostRepository {
 		};
 
 		const { nModified: updateResult }: AnyObject = await PostModel.updateOne(query, updatedDocument);
+
 		if (!updateResult) return null;
 	}
 
-	async deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void> {
-		await PostModel.updateOne(
+	async deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void | null> {
+		const { nModified: deleteResult }: AnyObject = await PostModel.updateOne(
 			{ id: postId.value },
 			{ $pull: {
 				comments: { id: commentId.value }
 			}}
 		);
+		if (!deleteResult) return null;
 	}
 
 	// Class utils
@@ -134,4 +136,5 @@ export class PostRepositoryMongo implements PostRepository {
 			}))
 		};
 	}
+
 }

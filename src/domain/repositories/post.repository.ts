@@ -18,6 +18,6 @@ export interface PostRepository {
 
     updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void|null>;
 
-    deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void>;
+    deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void|null>;
 
 }
