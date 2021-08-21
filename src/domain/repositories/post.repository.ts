@@ -6,18 +6,20 @@ export interface PostRepository {
 
     getAllPosts(): Promise<Post[]>;
 
-    getPostByID(postId: IdVO): Promise<Post|null>;
+    getPostByID(postId: IdVO): Promise<Post>;
     
     persistPost(post: Post): Promise<void>;
 
-    updatePost(postId: IdVO, updatedPost: Post): Promise<Post|null>;
+    updatePost(postId: IdVO, updatedPost: Post): Promise<Post>;
 
     deletePostById(postId: IdVO): Promise<void>;
 
-    saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void|null>;
+    saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void>;
 
-    updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void|null>;
+    updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void>;
 
-    deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void|null>;
+    deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void>;
+
+    checkIfPostExists(id: IdVO): Promise<boolean>
 
 }
