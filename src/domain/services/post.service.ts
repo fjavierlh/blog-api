@@ -14,43 +14,43 @@ export class PostService {
 		return this.postRepository.getAllPosts();
 	}
 
-	async findPostById(postId: IdVO): Promise<Post|null> {
-		const post = this.postRepository.getPostByID(postId);
-		return post;
+	async findPostById(postID: IdVO): Promise<Post> {
+		this.checkIfPostExist(postID);
+		return this.postRepository.getPostByID(postID);
 	}
 
-	async savePost(post: Post): Promise<void> {
-		await this.postRepository.persistPost(post);
+	async savePost(newPost: Post): Promise<void> {
+		await this.postRepository.persistPost(newPost);
 	}
 
-	async updatePostById(idPost: IdVO, post: Post): Promise<Post|null> {
-		this.checkIfPostExist(idPost);
+	async updatePostByID(idPost: IdVO, post: Post): Promise<Post> {
+		await this.checkIfPostExist(idPost);
 		return this.postRepository.updatePost(idPost, post);
 	}
 
-	async removePostById(idPost: IdVO): Promise<void> {
-		this.checkIfPostExist(idPost);
-		await this.postRepository.deletePostById(idPost);
+	async removePostById(postID: IdVO): Promise<void> {
+		await this.checkIfPostExist(postID);
+		await this.postRepository.deletePostById(postID);
 	}
 
-	async commentPost(idPost: IdVO, comment: CommentPost): Promise<void> {
-		this.checkIfPostExist(idPost);
-		await this.postRepository.saveCommentInPost(idPost, comment);
+	async commentPost(postID: IdVO, newComment: CommentPost): Promise<void> {
+		await this.checkIfPostExist(postID);
+		await this.postRepository.saveCommentInPost(postID, newComment);
 	}
 
-	async updateCommentPost(idPost: IdVO, updatedComment: CommentPost): Promise<void|null> {
-		this.checkIfPostExist(idPost);
-		return this.postRepository.updateCommentInPost(idPost, updatedComment);
+	async updateCommentPost(postID: IdVO, updatedComment: CommentPost): Promise<void> {
+		await this.checkIfPostExist(postID);
+		await this.postRepository.updateCommentInPost(postID, updatedComment);
 	}
 
-	async removeCommentPost(idPost: IdVO, idComment: IdVO): Promise<void> {
-		this.checkIfPostExist(idPost);
-		await this.postRepository.deleteCommentInPost(idPost, idComment);
+	async removeCommentPost(postID: IdVO, commentID: IdVO): Promise<void> {
+		await this.checkIfPostExist(postID);
+		await this.postRepository.deleteCommentInPost(postID, commentID);
 	}
 
-	private async checkIfPostExist(idPost: IdVO) {
-		const expectedPost = this.findPostById(idPost);
-		if(!expectedPost) throw new ExceptionWithCode(404, `Post with id ${idPost.value} not found`);
+	private async checkIfPostExist(postID: IdVO): Promise<void> {
+		const exist = await this.postRepository.checkIfPostExists(postID);
+		if(!exist) throw new ExceptionWithCode(404, `Post with ID ${postID.value} not found`);
 	}
 
 }
