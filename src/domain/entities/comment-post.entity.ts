@@ -28,4 +28,14 @@ export class CommentPost {
 	get date(): CommentDateVO {
 		return this.comment.date;
 	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	toAnyType(): any {
+		return {
+			id: this.comment.id.value,
+			nickname: this.comment.nickname.value,
+			content: this.comment.content.value,
+			date: this.comment.date.value
+		};
+	}
 }
