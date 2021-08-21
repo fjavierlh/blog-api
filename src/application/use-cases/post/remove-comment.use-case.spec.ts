@@ -2,7 +2,16 @@ import 'reflect-metadata';
 import Container from 'typedi';
 import { PostRepositoryMongo } from '../../../infrastructure/repositories/post.repository.mongo';
 import { RemoveCommentPostUseCase } from './remove-comment.use-case';
-jest.mock('../../../infrastructure/repositories/post.repository.mongo');
+jest.mock('../../../infrastructure/repositories/post.repository.mongo', () => {
+	return {
+		PostRepositoryMongo: jest.fn().mockImplementation(() => {
+			return {
+				deleteCommentInPost: jest.fn(),
+				checkIfPostExists: jest.fn().mockImplementation(() => true),
+			};
+		})
+	};
+});
 
 describe('RemoveCommentPostUseCase', () => {
 	it('should remove a existent comment', async () => {

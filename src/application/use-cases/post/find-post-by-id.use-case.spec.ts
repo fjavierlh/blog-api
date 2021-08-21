@@ -20,6 +20,7 @@ jest.mock('./../../../infrastructure/repositories/post.repository.mongo', () => 
 	return {
 		PostRepositoryMongo: jest.fn().mockImplementation(() => {
 			return {
+				checkIfPostExists: jest.fn().mockImplementation(() => true),
 				getPostByID: jest.fn().mockImplementation(() => 
 					new Post({
 						id: IdVO.createWithUUID('cf1e0d44-7b6a-4a0e-843c-cbc0e0b4a668'),
