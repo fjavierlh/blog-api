@@ -30,7 +30,7 @@ export class PostService {
 
 	async removePostById(postID: IdVO): Promise<void> {
 		await this.checkIfPostExist(postID);
-		await this.postRepository.deletePostById(postID);
+		await this.postRepository.deletePostByID(postID);
 	}
 
 	async commentPost(postID: IdVO, newComment: CommentPost): Promise<void> {
