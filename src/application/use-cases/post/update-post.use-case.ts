@@ -32,9 +32,7 @@ export class UpdatePostUseCase {
 			comments: CommentsListVO.create([])
 		};
 
-		const updatedPost: Post|null = await this.postService.updatePostById(idToVO, new Post(updatedPostToType));
-
-		if (!updatedPost) return null;
+		const updatedPost: Post = await this.postService.updatePostByID(idToVO, new Post(updatedPostToType));
 
 		const updatedPostToResponse: SinglePostResponse = {
 			id: updatedPost.id.value,
