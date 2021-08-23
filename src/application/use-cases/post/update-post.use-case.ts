@@ -19,7 +19,7 @@ export class UpdatePostUseCase {
 
 	constructor(private postService: PostService) { }
 
-	async execute(receivedId: IdRequest, receivedPost: PostRequest): Promise<SinglePostResponse | null> {
+	async execute(receivedId: IdRequest, receivedPost: PostRequest): Promise<SinglePostResponse> {
 
 		const idToVO = IdVO.createWithUUID(receivedId);
 
