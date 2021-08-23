@@ -36,7 +36,8 @@ export class PostRepositoryMongo implements PostRepository {
 	}
 
 	async updatePost(postID: IdVO, post: Post): Promise<Post> {
-		const updatedPost: AnyObject = post.toAnyType();
+		const { id, author, nickname, title, content }: AnyObject = post.toAnyType();
+		const updatedPost = { id, author, nickname, title, content };
 		const returnedPost: AnyObject = await PostModel.findOneAndUpdate({ id: postID.value }, updatedPost);
 		const returnedPostToType: PostType = this.castPostSchemaToType(returnedPost);
 		return new Post(returnedPostToType);
@@ -73,14 +74,20 @@ export class PostRepositoryMongo implements PostRepository {
 	async deleteCommentInPost(postID: IdVO, commentID: IdVO): Promise<void> {
 		await PostModel.updateOne(
 			{ id: postID.value },
-			{ $pull: {
-				comments: { id: commentID.value }
-			}}
+			{
+				$pull: {
+					comments: { id: commentID.value }
+				}
+			}
 		);
 	}
 
 	async checkIfPostExists(id: IdVO): Promise<boolean> {
 		return PostModel.exists({ id: id.value });
+	}
+
+	async checkIfCommentPostExists(postID: IdVO, commentID: IdVO): Promise<boolean> {
+		return PostModel.exists({ id: postID.value, 'comments.id': commentID.value });
 	}
 
 	// Class utils
