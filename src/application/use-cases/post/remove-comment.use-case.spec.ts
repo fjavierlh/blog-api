@@ -8,6 +8,7 @@ jest.mock('../../../infrastructure/repositories/post.repository.mongo', () => {
 			return {
 				deleteCommentInPost: jest.fn(),
 				checkIfPostExists: jest.fn().mockImplementation(() => true),
+				checkIfCommentPostExists: jest.fn().mockImplementation(() => true),
 			};
 		})
 	};
