@@ -41,9 +41,13 @@ router.post('/api/posts',
 			const newPost: PostRequest = { author, nickname, title, content };
 
 			const createPostUseCase = Container.get(CreatePostUseCase);
-			await createPostUseCase.execute(newPost);
+			const postID = await createPostUseCase.execute(newPost);
 
-			res.status(201).json({ msg: 'Post created!', post: { ...newPost } });
+			res.status(201).json({
+				statusCode: 200,
+				message: `Save post with ID ${postID} success`,
+				post: newPost
+			});
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
@@ -58,7 +62,11 @@ router.get('/api/posts',
 		try {
 			const useCase = Container.get(FindAllPostsUseCase);
 			const allPosts = await useCase.execute();
-			res.status(200).json(allPosts);
+			res.status(200).json({
+				statusCode: 200,
+				message: `Showing ${allPosts.length} posts`,
+				post: allPosts
+			});
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
@@ -77,15 +85,18 @@ router.get('/api/posts/:postID',
 
 			const { postID } = req.params;
 			const useCase = Container.get(FindPostByIdUseCase);
-			const allPosts = await useCase.execute(postID);
+			const post = await useCase.execute(postID);
 
-			res.status(200).json(allPosts);
+			res.status(200).json({
+				statusCode: 200,
+				message: `Post with ID ${postID} found`,
+				post: post
+			});
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			res.status(401).json({ errors: { msg: error.message } });
 		}
-
 	}
 );
 
