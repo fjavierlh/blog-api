@@ -18,6 +18,8 @@ export interface PostRepository {
 
     updateCommentInPost(postID: IdVO, updatedComment: CommentPost): Promise<void>;
 
+    getCommentPostByID(postID: IdVO, commentID: IdVO): Promise<CommentPost>;
+
     deleteCommentInPost(postID: IdVO, commentID: IdVO): Promise<void>;
 
     checkIfPostExists(postID: IdVO): Promise<boolean>;
