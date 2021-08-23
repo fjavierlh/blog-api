@@ -39,18 +39,24 @@ export class PostService {
 	}
 
 	async updateCommentPost(postID: IdVO, updatedComment: CommentPost): Promise<void> {
-		await this.checkIfPostExist(postID);
+		await this.checkIfCommentPostExist(postID, updatedComment.id);
 		await this.postRepository.updateCommentInPost(postID, updatedComment);
 	}
 
 	async removeCommentPost(postID: IdVO, commentID: IdVO): Promise<void> {
-		await this.checkIfPostExist(postID);
+		await this.checkIfCommentPostExist(postID, commentID);
 		await this.postRepository.deleteCommentInPost(postID, commentID);
 	}
 
 	private async checkIfPostExist(postID: IdVO): Promise<void> {
 		const exist = await this.postRepository.checkIfPostExists(postID);
 		if(!exist) throw new ExceptionWithCode(404, `Post with ID ${postID.value} not found`);
+	}
+
+	private async checkIfCommentPostExist(postID: IdVO, commentID: IdVO): Promise<void> {
+		await this.checkIfPostExist(postID);
+		const exist = await this.postRepository.checkIfCommentPostExists(postID, commentID);
+		if(!exist) throw new ExceptionWithCode(404, `Comment with ID ${postID.value} not found`);
 	}
 
 }
