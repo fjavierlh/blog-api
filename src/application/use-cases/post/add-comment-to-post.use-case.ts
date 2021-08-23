@@ -16,7 +16,7 @@ export class AddCommentToPostUseCase {
 
 	constructor(private postService: PostService, private offensiveWordService: OffensiveWordService) { }
 
-	async execute(postID: IdRequest, comment: CommentPostRequest): Promise<void> {
+	async execute(postID: IdRequest, comment: CommentPostRequest): Promise<IdRequest> {
 		
 		await this.offensiveWordService.chekWordsInComment(
 			CommentContentVO.create(comment.content),
@@ -31,5 +31,6 @@ export class AddCommentToPostUseCase {
 		};
 
 		await this.postService.commentPost(IdVO.createWithUUID(postID), new CommentPost(commentToType));
+		return commentToType.id.value;
 	}
 }

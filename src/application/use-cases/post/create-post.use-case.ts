@@ -7,13 +7,14 @@ import { IdVO } from '../../../domain/vos/id.vo';
 import { CommentsListVO } from '../../../domain/vos/posts/comments-list.vo';
 import { PostContentVO } from '../../../domain/vos/posts/post-content.vo';
 import { PostTitleVO } from '../../../domain/vos/posts/post-title.vo';
+import { IdRequest } from '../types/id.request';
 import { PostRequest } from './types/post.request';
 
 @Service()
 export class CreatePostUseCase {
 	constructor(private postService: PostService) { }
 
-	async execute(newPost: PostRequest): Promise<void> {
+	async execute(newPost: PostRequest): Promise<IdRequest> {
         
 		const postToType: PostType = {
 			id: IdVO.create(),
@@ -24,8 +25,8 @@ export class CreatePostUseCase {
 			comments: CommentsListVO.create([])
 		};
 
+		await this.postService.savePost(new Post(postToType));
 
-		this.postService.savePost(new Post(postToType));
-
+		return postToType.id.value;
 	}
 }
