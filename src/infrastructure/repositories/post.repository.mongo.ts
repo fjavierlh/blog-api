@@ -59,6 +59,20 @@ export class PostRepositoryMongo implements PostRepository {
 		await searchedPost.save();
 	}
 
+	async getCommentPostByID(postID: IdVO, commentID: IdVO): Promise<CommentPost> {
+		const comment: AnyObject = PostModel.findOne({
+			id: postID.value,
+			'comments.id': commentID.value
+		}).exec();
+
+		return new CommentPost({
+			id: IdVO.createWithUUID(comment.id),
+			nickname: CommentNicknameVO.create(comment.nickname),
+			content: CommentContentVO.create(comment.content),
+			date: CommentDateVO.createWithDate(comment.date)
+		});
+	}
+
 	async updateCommentInPost(postID: IdVO, updatedComment: CommentPost): Promise<void> {
 		const query = { id: postID.value, 'comments.id': updatedComment.id.value };
 		const updatedDocument = {
