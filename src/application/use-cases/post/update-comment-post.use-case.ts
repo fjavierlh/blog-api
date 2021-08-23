@@ -16,7 +16,7 @@ export class UpdateCommentPostUseCase {
 
 	constructor(private postService: PostService, private offensiveWordService: OffensiveWordService) { }
 
-	async execute(idPost: IdRequest, idComment: IdRequest, updatedComment: CommentPostRequest): Promise<void|null> {		
+	async execute(postID: IdRequest, commentID: IdRequest, updatedComment: CommentPostRequest): Promise<void> {		
 		await this.offensiveWordService.chekWordsInComment(
 			CommentContentVO.create(updatedComment.content),
 			LevelVO.create(parseEnvVariableToNumber(process.env.OFFENSIVE_WORD_LEVEL ?? '5'))
@@ -24,9 +24,9 @@ export class UpdateCommentPostUseCase {
 		
 		
 		return this.postService.updateCommentPost(
-			IdVO.createWithUUID(idPost),
+			IdVO.createWithUUID(postID),
 			new CommentPost({
-				id: IdVO.createWithUUID(idComment),
+				id: IdVO.createWithUUID(commentID),
 				nickname: CommentNicknameVO.create(updatedComment.nickname),
 				content: CommentContentVO.create(updatedComment.content),
 				date: CommentDateVO.create()
