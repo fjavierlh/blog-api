@@ -20,6 +20,8 @@ export interface PostRepository {
 
     deleteCommentInPost(postID: IdVO, commentID: IdVO): Promise<void>;
 
-    checkIfPostExists(postID: IdVO): Promise<boolean>
+    checkIfPostExists(postID: IdVO): Promise<boolean>;
+
+    checkIfCommentPostExists(postID: IdVO, commentID: IdVO): Promise<boolean>;
 
 }
