@@ -28,16 +28,7 @@ jest.mock('./../../../infrastructure/repositories/post.repository.mongo', () => 
 						comments: CommentsListVO.create([])
 					})
 				),
-				getPostByID: jest.fn().mockImplementation(() =>
-					new Post({
-						id: IdVO.createWithUUID('cf1e0d44-7b6a-4a0e-843c-cbc0e0b4a668'),
-						author: AuthorNameVO.create('Anónimo'),
-						nickname: AuthorNicknameVO.create('anonymus'),
-						title: PostTitleVO.create('An anonymus post'),
-						content: PostContentVO.create('loremimpsum'.repeat(6)),
-						comments: CommentsListVO.create([])
-					})
-				)
+				checkIfPostExists: jest.fn().mockImplementation(() => true),
 			};
 		})
 	};

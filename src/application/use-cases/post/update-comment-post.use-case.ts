@@ -7,6 +7,7 @@ import { CommentDateVO } from '../../../domain/vos/comments/comment-date.vo';
 import { CommentNicknameVO } from '../../../domain/vos/comments/comment-nickname.vo';
 import { IdVO } from '../../../domain/vos/id.vo';
 import { LevelVO } from '../../../domain/vos/offensive-word/level.vo';
+import { parseEnvVariableToNumber } from '../../../utils/parse-env-variable-to-number.util';
 import { IdRequest } from '../types/id.request';
 import { CommentPostRequest } from './types/comment-post.request';
 
@@ -15,18 +16,17 @@ export class UpdateCommentPostUseCase {
 
 	constructor(private postService: PostService, private offensiveWordService: OffensiveWordService) { }
 
-	async execute(idPost: IdRequest, idComment: IdRequest, updatedComment: CommentPostRequest): Promise<void|null> {		
-		
+	async execute(postID: IdRequest, commentID: IdRequest, updatedComment: CommentPostRequest): Promise<void> {		
 		await this.offensiveWordService.chekWordsInComment(
 			CommentContentVO.create(updatedComment.content),
-			LevelVO.create(5)
+			LevelVO.create(parseEnvVariableToNumber(process.env.OFFENSIVE_WORD_LEVEL ?? '5'))
 		);
 		
 		
 		return this.postService.updateCommentPost(
-			IdVO.createWithUUID(idPost),
+			IdVO.createWithUUID(postID),
 			new CommentPost({
-				id: IdVO.createWithUUID(idComment),
+				id: IdVO.createWithUUID(commentID),
 				nickname: CommentNicknameVO.create(updatedComment.nickname),
 				content: CommentContentVO.create(updatedComment.content),
 				date: CommentDateVO.create()

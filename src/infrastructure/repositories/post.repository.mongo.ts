@@ -17,62 +17,64 @@ export class PostRepositoryMongo implements PostRepository {
 
 	async getAllPosts(): Promise<Post[]> {
 		const allPostsData = await PostModel.find().exec();
-
 		return allPostsData.map((post: AnyObject) => {
 			const postToType: PostType = this.castPostSchemaToType(post);
 			return new Post(postToType);
 		});
 	}
 
-	async getPostByID(postId: IdVO): Promise<Post | null> {
-
-		const searchedPost: AnyObject = await this.getPostModel(postId);
-		if (!searchedPost) return null;
-
+	async getPostByID(postID: IdVO): Promise<Post> {
+		const searchedPost: AnyObject = await this.getPostModel(postID);
 		const postType: PostType = this.castPostSchemaToType(searchedPost);
 		return new Post(postType);
 	}
 
 	async persistPost(post: Post): Promise<void> {
-		const newPost = this.castPostEntityToAnyObject(post);
+		const newPost: AnyObject = post.toAnyType();
 		const postModel = new PostModel(newPost);
 		await postModel.save();
 	}
 
-	async updatePost(postId: IdVO, post: Post): Promise<Post | null> {
-		const updatedPost = this.castPostEntityToAnyObject(post);
-		const returnedPost: AnyObject = await PostModel.findOneAndUpdate({ id: postId.value }, updatedPost);
-
-		if (!returnedPost)
-			return null;
-
+	async updatePost(postID: IdVO, post: Post): Promise<Post> {
+		const { id, author, nickname, title, content }: AnyObject = post.toAnyType();
+		const updatedPost = { id, author, nickname, title, content };
+		const returnedPost: AnyObject = await PostModel.findOneAndUpdate({ id: postID.value }, updatedPost);
 		const returnedPostToType: PostType = this.castPostSchemaToType(returnedPost);
 		return new Post(returnedPostToType);
 	}
 
-	async deletePostById(postId: IdVO): Promise<void> {
-		await PostModel.deleteOne({ id: postId.value }).exec();
+	async deletePostByID(postID: IdVO): Promise<void> {
+		await PostModel.deleteOne({ id: postID.value }).exec();
 	}
 
-	async saveCommentInPost(postId: IdVO, comment: CommentPost): Promise<void | null> {
-		const searchedPost: AnyObject = await this.getPostModel(postId);
-
-		if (!searchedPost)
-			return null;
-
+	async saveCommentInPost(postID: IdVO, comment: CommentPost): Promise<void> {
+		const searchedPost: AnyObject = await this.getPostModel(postID);
 		const newComment = {
 			id: comment.id.value,
 			nickname: comment.nickname.value,
 			content: comment.content.value,
 			date: comment.date.value
 		};
-
 		await searchedPost.comments.push(newComment);
 		await searchedPost.save();
 	}
 
-	async updateCommentInPost(postId: IdVO, updatedComment: CommentPost): Promise<void | null> {
-		const query = { id: postId.value, 'comments.id': updatedComment.id.value };
+	async getCommentPostByID(postID: IdVO, commentID: IdVO): Promise<CommentPost> {
+		const comment: AnyObject = PostModel.findOne({
+			id: postID.value,
+			'comments.id': commentID.value
+		}).exec();
+
+		return new CommentPost({
+			id: IdVO.createWithUUID(comment.id),
+			nickname: CommentNicknameVO.create(comment.nickname),
+			content: CommentContentVO.create(comment.content),
+			date: CommentDateVO.createWithDate(comment.date)
+		});
+	}
+
+	async updateCommentInPost(postID: IdVO, updatedComment: CommentPost): Promise<void> {
+		const query = { id: postID.value, 'comments.id': updatedComment.id.value };
 		const updatedDocument = {
 			$set: {
 				'comments.$.nickname': updatedComment.nickname.value,
@@ -80,43 +82,31 @@ export class PostRepositoryMongo implements PostRepository {
 				'comments.$.date': updatedComment.date.value
 			}
 		};
-
-		const { nModified: updateResult }: AnyObject = await PostModel.updateOne(query, updatedDocument);
-
-		if (!updateResult) return null;
+		await PostModel.updateOne(query, updatedDocument);
 	}
 
-	async deleteCommentInPost(postId: IdVO, commentId: IdVO): Promise<void | null> {
-		const { nModified: deleteResult }: AnyObject = await PostModel.updateOne(
-			{ id: postId.value },
-			{ $pull: {
-				comments: { id: commentId.value }
-			}}
+	async deleteCommentInPost(postID: IdVO, commentID: IdVO): Promise<void> {
+		await PostModel.updateOne(
+			{ id: postID.value },
+			{
+				$pull: {
+					comments: { id: commentID.value }
+				}
+			}
 		);
-		if (!deleteResult) return null;
+	}
+
+	async checkIfPostExists(id: IdVO): Promise<boolean> {
+		return PostModel.exists({ id: id.value });
+	}
+
+	async checkIfCommentPostExists(postID: IdVO, commentID: IdVO): Promise<boolean> {
+		return PostModel.exists({ id: postID.value, 'comments.id': commentID.value });
 	}
 
 	// Class utils
-	private async getPostModel(postId: IdVO): Promise<AnyObject> {
-		return PostModel.findOne({ id: postId.value }).exec();
-	}
-
-	private castPostEntityToAnyObject(post: Post): AnyObject {
-		return {
-			id: post.id.value,
-			author: post.author.value,
-			nickname: post.nickname.value,
-			title: post.title.value,
-			content: post.content.value,
-			comments: post.comments.value.map((c) => {
-				return {
-					id: c.id.value,
-					nickname: c.nickname.value,
-					content: c.content.value,
-					date: c.date.value
-				};
-			})
-		};
+	private async getPostModel(postID: IdVO): Promise<AnyObject> {
+		return PostModel.findOne({ id: postID.value }).exec();
 	}
 
 	private castPostSchemaToType(post: AnyObject): PostType {

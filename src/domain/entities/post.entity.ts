@@ -40,6 +40,18 @@ export class Post {
 
 	get comments(): CommentsListVO {
 		return this.post.comments;
-	} 
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	toAnyType(): any {
+		return {
+			id: this.post.id.value,
+			author: this.post.author.value,
+			nickname: this.post.nickname.value,
+			title: this.post.title.value,
+			content: this.post.content.value,
+			comments: this.post.comments.value.map((c) => c.toAnyType())
+		};
+	}
 
 }

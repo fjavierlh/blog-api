@@ -11,7 +11,6 @@ import { FindOffensiveWordById } from '../../application/use-cases/offensive-wor
 import { UpdateOffensiveWordByIdUseCase } from '../../application/use-cases/offensive-word/update-offensive-word-by-id.use-case';
 import { ExceptionWithCode } from '../../domain/exception-with-code';
 import { Role } from '../../domain/vos/auth-user/role.vo';
-import { isOwner } from '../middlewares/is-owner.middleware';
 import { hasRole } from '../middlewares/roles.middleware';
 
 
@@ -30,6 +29,7 @@ router.post('/api/offensive-word',
 	body('word').isString().notEmpty().trim().escape(),
 	body('level').isNumeric().notEmpty(),
 	passport.authenticate('jwt', { session: false }),
+	hasRole([Role.ADMIN]),
 	async (req: Request, res: Response) => {
 
 		try {
@@ -45,7 +45,7 @@ router.post('/api/offensive-word',
 			await useCase.execute(newOffensiveWord);
 			res.status(201).json({ 'msg': `offensive word '${word}' with level ${level} created` });
 
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			return res.status(400).json({ errors: [{ msg: error.message }] });
 		}

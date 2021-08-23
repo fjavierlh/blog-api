@@ -5,6 +5,7 @@ import { User, UserType } from '../entities/user.entity';
 import { PasswordVO } from '../vos/auth-user/password.vo';
 import { EmailVO } from '../vos/auth-user/email.vo';
 import { ExceptionWithCode } from '../exception-with-code';
+import { parseEnvVariableToNumber } from '../../utils/parse-env-variable-to-number.util';
 
 @Service()
 export class UserService {
@@ -16,8 +17,11 @@ export class UserService {
 	}
 
 	async persist(user: User): Promise<void> {
-		const SALT = process.env.SALT ?? 10;
-		const hash = await bcrypt.hash(user.password.value, +SALT);
+		const hash = await bcrypt.hash(
+			user.password.value,
+			parseEnvVariableToNumber(process.env.SALT ?? '10')
+		);
+		
 		const encryptedPassword = PasswordVO.create(hash);
 
 		const newUser: UserType = {

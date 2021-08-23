@@ -19,6 +19,6 @@ export class CreateAuthorUseCase {
 			nickname: AuthorNicknameVO.create(author.nickname)
 		};
 
-		this.authorService.persist(new Author(authorToType));
+		await this.authorService.persist(new Author(authorToType));
 	}
 }

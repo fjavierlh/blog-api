@@ -8,7 +8,17 @@ import { OffensiveWordRepositoryMongo } from '../../../infrastructure/repositori
 import { PostRepositoryMongo } from '../../../infrastructure/repositories/post.repository.mongo';
 import { CommentPostRequest } from './types/comment-post.request';
 import { UpdateCommentPostUseCase } from './update-comment-post.use-case';
-jest.mock('./../../../infrastructure/repositories/post.repository.mongo');
+jest.mock('./../../../infrastructure/repositories/post.repository.mongo', () => {
+	return {
+		PostRepositoryMongo: jest.fn().mockImplementation(() => {
+			return {
+				updateCommentInPost: jest.fn(),
+				checkIfPostExists: jest.fn().mockImplementation(() => true),
+				checkIfCommentPostExists: jest.fn().mockImplementation(() => true),
+			};
+		})
+	};
+});
 
 jest.mock('./../../../infrastructure/repositories/offensive-word.repository.mongo', () => {
 	return {
